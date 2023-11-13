@@ -17,15 +17,6 @@
 
 
 "----------------------------------------------------------------------
-" INSERT 模式下使用 EMACS 键位
-"----------------------------------------------------------------------
-inoremap <c-a> <home>
-inoremap <c-e> <end>
-inoremap <c-d> <del>
-inoremap <c-_> <c-k>
-
-
-"----------------------------------------------------------------------
 " 设置 CTRL+HJKL 移动光标（INSERT 模式偶尔需要移动的方便些）
 " 使用 SecureCRT/XShell 等终端软件需设置：Backspace sends delete
 " 详见：http://www.skywind.me/blog/archives/2021
@@ -329,5 +320,88 @@ else
 				\ --include='*.js' --include='*.vim'
 				\ '<root>' <cr>
 endif
+
+
+"----------------------------------------------------------------------
+" 自定义快捷键的前缀，即<Leader>
+"----------------------------------------------------------------------
+let mapleader=";"
+
+"----------------------------------------------------------------------
+" markdown 的一些快捷键
+"----------------------------------------------------------------------
+nmap tm :call SetTime() <CR>
+func SetTime()
+        call append(line("."), "\# ".strftime('%a %d %b %Y'))
+endfunc
+
+nmap tb :call SetTable() <CR>
+func SetTable()
+        call append(line("."), "\| | | ")
+        call append(line(".")+1, "\|---|---|")
+        call append(line(".")+2, "\| | |")
+endfunc
+
+nmap pc :call SetPic() <CR>
+func SetPic()
+        call append(line("."), "\<img src='' width=600 alt=''> </img></div>")
+endfunc
+
+nmap pi :call SetPic1() <CR>
+func SetPic1()
+        call append(line("."), "\![]()")
+endfunc
+
+nmap vi :call SetVideo() <CR>
+func SetVideo()
+        call append(line("."), "\<video src='1.mp4' controls='controls' width='640' height='320' autoplay='autoplay'> Your browser does not support the video tag.</video></div>")
+endfunc
+
+nmap cl :call SetCollor() <CR>
+func SetCollor()
+        call append(line("."), "<span  style='color: #f16707;'> </span>")
+endfunc
+
+"----------------------------------------------------------------------
+" 快捷键窗口操作
+"----------------------------------------------------------------------
+" 设置快捷键gs遍历各分割窗口。快捷键速记法：goto the next spilt window
+nnoremap <Leader>gs <C-W><C-W>
+
+" 向左
+nnoremap <leader>h <C-W><C-H>
+
+" 向右
+nnoremap <leader>l <C-W><C-L>
+
+" 向上
+nnoremap <Leader>k <C-W><C-K>
+
+" 向下
+nnoremap <Leader>j <C-W><C-J>
+
+" 水平分隔
+nmap <Leader>s :Sex<CR>
+
+" 竖直分隔
+nmap <Leader>v :Vex<CR>
+
+" 向下翻半屏
+nmap <Leader>u <C-U>
+
+" 向上翻半屏
+nmap <Leader>d <C-D>
+
+"----------------------------------------------------------------------
+" 文件快速键操作
+"----------------------------------------------------------------------
+" 打开文件
+nmap <Leader>e :e<Space>
+
+" 不关闭文件推出
+nmap <Leader>z <C-Z>
+
+" 快速切换C H源文件
+nmap <Leader>a :A<CR>
 
 

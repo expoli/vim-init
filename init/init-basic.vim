@@ -41,6 +41,26 @@ set ttimeoutlen=50
 " 显示光标位置
 set ruler
 
+" 保持 50 行命令行历史记录
+set history=50
+
+" 设置自动刷新缓存，当需要重新读取缓存时只需要执行:checktime
+set autoread
+
+" 关闭自动备份
+set nobackup
+
+"----------------------------------------------------------------------
+" vim 7.3新特性：持久撤销 配置
+" 重启后撤销历史可用 persistent undo
+"----------------------------------------------------------------------
+set undofile
+
+" 持久化文件夹（必须手工预先创建，vim不会自动帮你创建）
+set undodir=$VIMFILES/\_undodir
+
+" 最大可撤销次数
+set undolevels=1000
 
 "----------------------------------------------------------------------
 " 搜索设置
@@ -70,7 +90,7 @@ if has('multi_byte')
 	set fileencoding=utf-8
 
 	" 打开文件时自动尝试下面顺序的编码
-	set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
+	set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 endif
 
 

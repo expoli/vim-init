@@ -50,4 +50,9 @@ LoadScript init/init-style.vim
 LoadScript init/init-keymaps.vim
 
 
+"----------------------------------------------------------------------
+" vim-script 加载
+"----------------------------------------------------------------------
+
+runtime vim-script/quickui.vim
 
