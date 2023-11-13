@@ -9,6 +9,33 @@
 " vim: set ts=4 sw=4 tw=78 noet :
 
 
+"----------------------------------------------------------------------
+" vim-plug 插件管理器
+"----------------------------------------------------------------------
+" 初始化 vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  if v:shell_error
+    " just in case of github access failure
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    if v:shell_error
+      exit
+    else
+      silent !touch ~/.vim/autoload/plug.vim.ready
+    endif
+  else
+    silent !touch ~/.vim/autoload/plug.vim.ready
+  endif
+endif
+
+if !empty(glob('~/.vim/autoload/plug.vim.ready'))
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    if !v:shell_error
+      silent !rm -f "$HOME/.vim/autoload/plug.vim.ready"
+    endif
+endif
 
 "----------------------------------------------------------------------
 " 默认情况下的分组，可以再前面覆盖之
@@ -516,6 +543,52 @@ if index(g:bundle_group, 'leaderf') >= 0
 		noremap <m-n> :CtrlPBuffer<cr>
 	endif
 endif
+
+
+"----------------------------------------------------------------------
+" vim-auto-popmenu 
+"----------------------------------------------------------------------
+Plug 'skywind3000/vim-auto-popmenu'
+
+" enable this plugin for filetypes, '*' for all files.
+let g:apc_enable_ft = {'*': 1}
+
+" source for dictionary, current or other loaded buffers, see ':help cpt'
+set cpt=.,k,w,b
+
+" don't select the first item.
+set completeopt=menu,menuone,noselect
+
+" suppress annoy messages.
+set shortmess+=c
+
+" 使用回车键来选择补全项
+let g:apc_cr_confirm = 1
+
+"----------------------------------------------------------------------
+" vim-auto-popmenu 
+"----------------------------------------------------------------------
+Plug 'skywind3000/vim-quickui'
+
+"----------------------------------------------------------------------
+" vim-scripts  
+"----------------------------------------------------------------------
+Plug 'vim-scripts/DrawIt'
+Plug 'vim-scripts/ditaa'
+Plug 'vim-scripts/load_template'
+Plug 'vim-scripts/perl-support.vim'
+Plug 'vim-scripts/sessionman.vim'
+Plug 'vim-scripts/taglist.vim'
+Plug 'vim-scripts/vcscommand.vim'
+" a.vim 一些快速命令可以在源文件和头文件之间快速切换。
+Plug 'vim-scripts/a.vim'
+" 这是一个非常有用的插件，在使用多个缓冲区时能够以类似选项卡的方式查看缓冲区状态是非常令人愉快的。
+Plug 'vim-scripts/minibufexpl.vim'
+
+"----------------------------------------------------------------------
+" themes  
+"----------------------------------------------------------------------
+Plug 'tomasr/molokai'
 
 
 "----------------------------------------------------------------------
