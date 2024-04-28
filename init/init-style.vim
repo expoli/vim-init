@@ -44,7 +44,8 @@ set cursorline
 " 显示标尺
 set ruler
 
-" 用浅色高亮当前行
+" 当进入插入模式时，设置当前行突出显示光标所在的行
+" autocmd InsertLeave * se nocul
 autocmd InsertEnter * se cul
 
 " 搜索关键词高亮
@@ -65,6 +66,8 @@ set t_Co=256
 " 设置颜色主题，会在所有 runtimepaths 的 colors 目录寻找同名配置
 color molokai
 
+" 设置当前行的高亮颜色
+highlight CursorLine   cterm=NONE ctermbg=0 guibg=#000000
 
 "----------------------------------------------------------------------
 " 状态栏设置
