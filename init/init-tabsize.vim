@@ -19,12 +19,13 @@ set sw=4
 " 设置 TAB 宽度
 set ts=4
 
-" 禁止展开 tab (noexpandtab)
-set noet
-
 " 如果后面设置了 expandtab 那么展开 tab 为多少字符
 set softtabstop=4
 
+" 禁止展开 tab (noexpandtab)
+" set noet
+" 将 Tab 转换为空格
+set expandtab
 
 augroup PythonTab
 	au!
@@ -33,4 +34,15 @@ augroup PythonTab
 	au FileType python setlocal shiftwidth=4 tabstop=4 noexpandtab
 augroup END
 
+augroup YamlTab
+    au!
+    " 针对 YAML 文件，禁用 expandtab，使用真正的 Tab
+    au FileType yaml setlocal shiftwidth=2 tabstop=2 noexpandtab
+augroup END
+
+augroup MakefileTab
+    au!
+    " Makefile 必须使用真正的 Tab，不能展开为空格
+    au FileType make setlocal noexpandtab shiftwidth=8 tabstop=8
+augroup END
 
