@@ -194,6 +194,22 @@ if index(g:bundle_group, 'enhanced') >= 0
 	" 配对括号和引号自动补全
 	Plug 'Raimondi/delimitMate'
 
+	" 启用回车自动格式化
+	let g:delimitMate_expand_cr = 1
+	" 启用空格自动格式化      
+	let g:delimitMate_expand_space = 1
+	" 自动平衡匹配符号
+	let g:delimitMate_balance_matchpairs = 1
+	" 不在注释和字符串中触发
+	let g:delimitMate_excluded_regions = 'Comment,String'
+	" 保留默认的 {} 补全
+	let g:delimitMate_matchpairs = '(:),[:],{:},<:>'
+	" 只想对特定语言（如 C/C++/Rust）启用
+	augroup DelimitMateCustom
+		autocmd!
+		autocmd FileType c,cpp,rust inoremap <buffer> {<CR> {<CR>}<Esc>O
+	augroup END
+
 	" 提供 gist 接口
 	Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
 	
