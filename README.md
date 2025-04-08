@@ -21,14 +21,15 @@
 将项目克隆到你喜欢的目录内，比如 `~/.vim` 内：
 
 ```bash
+mkdir -p ~/.vim
 cd ~/.vim
 git clone https://github.com/expoli/vim-init.git
 ```
 
-然后创建你的 `~/.vimrc` 文件，里面只有一句话：
+然后使用下面的命令创建你的 `~/.vimrc` 文件，里面只有一句话。
 
 ```VimL
-source ~/.vim/vim-init/init.vim
+echo "source ~/.vim/vim-init/init.vim" > ~/.vimrc
 ```
 
 请调整你的终端软件，确保对 ALT 键的支持，以及 Backspace 键发送正确扫描码：
