@@ -82,7 +82,8 @@ function! AddFileHeader()
     call append(0, l:template)
     " 定位到文件描述位置方便编辑
     call cursor(3, 0)
-    startinsert
+    call search('文件描述')
+    startinsert!
 endfunction
 
 " 定义命令和快捷键
