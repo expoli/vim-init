@@ -3,7 +3,7 @@
 " init.vim - initialize config
 "
 " Created by skywind on 2018/05/30
-" Last Modified: 2018/05/30 18:26:34
+" Last Modified: 2025/04/08 11:44:35
 "
 "======================================================================
 
@@ -49,5 +49,8 @@ LoadScript init/init-style.vim
 " 自定义按键
 LoadScript init/init-keymaps.vim
 
+" 自动修改时间
+LoadScript init/init-modified-time.vim
 
-
+" 手动添加文件头信息
+LoadScript init/init-add-file-header.vim

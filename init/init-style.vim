@@ -38,6 +38,20 @@ set showcmd
 " 水平切割窗口时，默认在右边显示新窗口
 set splitright
 
+" 设置高亮当前行
+set cursorline
+
+" 显示标尺
+set ruler
+
+" 当进入插入模式时，设置当前行突出显示光标所在的行
+" autocmd InsertLeave * se nocul
+autocmd InsertEnter * se cul
+
+" 搜索关键词高亮
+set hlsearch
+
+set display=lastline
 
 "----------------------------------------------------------------------
 " 颜色主题：色彩文件位于 colors 目录中
@@ -50,8 +64,10 @@ set background=dark
 set t_Co=256
 
 " 设置颜色主题，会在所有 runtimepaths 的 colors 目录寻找同名配置
-color desert256
+color molokai
 
+" 设置当前行的高亮颜色
+highlight CursorLine   cterm=NONE ctermbg=0 guibg=#000000
 
 "----------------------------------------------------------------------
 " 状态栏设置

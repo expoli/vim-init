@@ -9,6 +9,33 @@
 " vim: set ts=4 sw=4 tw=78 noet :
 
 
+"----------------------------------------------------------------------
+" vim-plug 插件管理器
+"----------------------------------------------------------------------
+" 初始化 vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  if v:shell_error
+    " just in case of github access failure
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    if v:shell_error
+      exit
+    else
+      silent !touch ~/.vim/autoload/plug.vim.ready
+    endif
+  else
+    silent !touch ~/.vim/autoload/plug.vim.ready
+  endif
+endif
+
+if !empty(glob('~/.vim/autoload/plug.vim.ready'))
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    if !v:shell_error
+      silent !rm -f "$HOME/.vim/autoload/plug.vim.ready"
+    endif
+endif
 
 "----------------------------------------------------------------------
 " 默认情况下的分组，可以再前面覆盖之
@@ -156,7 +183,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 	Plug 'junegunn/fzf'
 
 	" 给不同语言提供字典补全，插入模式下 c-x c-k 触发
-	Plug 'asins/vim-dict'
+    Plug 'skywind3000/vim-dict'
 
 	" 使用 :FlyGrep 命令进行实时 grep
 	Plug 'wsdjeg/FlyGrep.vim'
@@ -516,6 +543,32 @@ if index(g:bundle_group, 'leaderf') >= 0
 		noremap <m-n> :CtrlPBuffer<cr>
 	endif
 endif
+
+
+"----------------------------------------------------------------------
+" vim-auto-popmenu 
+"----------------------------------------------------------------------
+Plug 'skywind3000/vim-auto-popmenu'
+
+" enable this plugin for filetypes, '*' for all files.
+let g:apc_enable_ft = {'*': 1}
+
+" source for dictionary, current or other loaded buffers, see ':help cpt'
+set cpt=.,k,w,b
+
+" don't select the first item.
+set completeopt=menu,menuone,noselect
+
+" suppress annoy messages.
+set shortmess+=c
+
+" 使用回车键来选择补全项
+let g:apc_cr_confirm = 1
+
+"----------------------------------------------------------------------
+" themes  
+"----------------------------------------------------------------------
+Plug 'tomasr/molokai'
 
 
 "----------------------------------------------------------------------
