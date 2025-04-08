@@ -48,8 +48,6 @@ source ~/.vim/vim-init/init.vim
 - `init-plugin.vim`: 插件，使用 vim-plug，按照设定的插件分组进行配置。
 - `init-style.vim`: 色彩主题，高亮优化，状态栏，更紧凑的标签栏文字等和显示相关的东西。
 - `init-keymaps.vim`: 快捷键定义。
-- `init-add-file-header.vim`: 支持手动添加自定义文件头信息，触发快捷键: `<leader>ah` 快捷键。
-- `init-modified-time.vim`: 自动更新文件头中的 Last Modified 字段中的时间。
 
 最好 fork 一份到你自己的仓库，然后不断修改，把它修改成你自己的东西，平时要更新时到这里同步下上游仓库，然后自己合并一下即可。
 
