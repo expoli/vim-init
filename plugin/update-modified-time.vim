@@ -23,7 +23,8 @@ function! UpdateLastModified()
 
     " 文件类型检查
     if index(g:modified_time_filetypes, &filetype) == -1
-        return  " 当前文件类型不在监听列表中
+        " 当前文件类型不在监听列表中
+        return
     endif
 
     let l:save_cursor = getpos(".")
