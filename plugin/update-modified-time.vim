@@ -3,7 +3,7 @@
 " init-modified-time.vim - 自动更新文件头中的Last Modified时间戳（可配置版）
 "
 " Created by expoli on 2025/04/08
-" Last Modified: 2025/04/08 20:47:05
+" Last Modified: 2025/04/12 13:51:52
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -12,7 +12,7 @@
 let g:modified_time_filetypes = ['vim', 'python', 'c', 'cpp']  " 监听的文件类型
 let g:modified_time_pattern = 'Last Modified: \d\{4}/\d\{2}/\d\{2} \d\{2}:\d\{2}:\d\{2}'  " 时间戳匹配模式
 let g:modified_time_format = "%Y/%m/%d %H:%M:%S"               " 时间格式（strftime格式）
-let g:modified_time_search_lines = 10                           " 搜索前N行
+let g:modified_time_search_lines = 10                          " 搜索前N行
 
 " ---------------------- 核心函数 ----------------------
 function! UpdateLastModified()
