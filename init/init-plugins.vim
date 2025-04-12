@@ -1,9 +1,9 @@
 "======================================================================
 "
-" init-plugins.vim - 
+" init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2018/06/10 23:11
+" Last Modified: 2025/04/12 13:50:27
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -80,6 +80,8 @@ Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 " Diff 增强，支持 histogram / patience 等更科学的 diff 算法
 Plug 'chrisbra/vim-diff-enhanced'
 
+" 低配置缓冲区列表
+Plug 'ap/vim-buftabline'
 
 "----------------------------------------------------------------------
 " Dirvish 设置：自动排序并隐藏文件，同时定位到相关文件
