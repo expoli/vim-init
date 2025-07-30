@@ -250,6 +250,14 @@ if index(g:bundle_group, 'tags') >= 0
 	" 默认禁用自动生成
 	let g:gutentags_modules = [] 
 
+" VimEnter is fired after the user interface has been initialized.
+	" Defer gutentags initialization until after Vim has started.
+	augroup GutentagsInit
+		autocmd!
+		autocmd VimEnter * call s:setup_gutentags()
+	augroup END
+
+	function! s:setup_gutentags()
 	" 如果有 ctags 可执行就允许动态生成 ctags 文件
 	if executable('ctags')
 		let g:gutentags_modules += ['ctags']
@@ -259,6 +267,7 @@ if index(g:bundle_group, 'tags') >= 0
 	if executable('gtags') && executable('gtags-cscope')
 		let g:gutentags_modules += ['gtags_cscope']
 	endif
+endfunction
 
 	" 设置 ctags 的参数
 	let g:gutentags_ctags_extra_args = []
