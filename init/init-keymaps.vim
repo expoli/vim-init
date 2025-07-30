@@ -301,34 +301,38 @@ endif
 "----------------------------------------------------------------------
 " markdown 的一些快捷键
 "----------------------------------------------------------------------
-nmap tm :call SetTime() <CR>
+augroup MarkdownKeymaps
+    autocmd!
+    autocmd FileType markdown nnoremap <buffer><silent> tm :call SetTime()<CR>
+    autocmd FileType markdown nnoremap <buffer><silent> tb :call SetTable()<CR>
+    autocmd FileType markdown nnoremap <buffer><silent> pc :call SetPic()<CR>
+    autocmd FileType markdown nnoremap <buffer><silent> pi :call SetPic1()<CR>
+    autocmd FileType markdown nnoremap <buffer><silent> vi :call SetVideo()<CR>
+    autocmd FileType markdown nnoremap <buffer><silent> cl :call SetCollor()<CR>
+augroup END
+
 func SetTime()
         call append(line("."), "\# ".strftime('%a %d %b %Y'))
 endfunc
 
-nmap tb :call SetTable() <CR>
 func SetTable()
         call append(line("."), "\| | | ")
         call append(line(".")+1, "\|---|---|")
         call append(line(".")+2, "\| | |")
 endfunc
 
-nmap pc :call SetPic() <CR>
 func SetPic()
         call append(line("."), "\<img src='' width=600 alt=''> </img></div>")
 endfunc
 
-nmap pi :call SetPic1() <CR>
 func SetPic1()
         call append(line("."), "\![]()")
 endfunc
 
-nmap vi :call SetVideo() <CR>
 func SetVideo()
         call append(line("."), "\<video src='1.mp4' controls='controls' width='640' height='320' autoplay='autoplay'> Your browser does not support the video tag.</video></div>")
 endfunc
 
-nmap cl :call SetCollor() <CR>
 func SetCollor()
         call append(line("."), "<span  style='color: #f16707;'> </span>")
 endfunc
@@ -373,6 +377,9 @@ nmap <Leader>e :e<Space>
 nmap <Leader>z <C-Z>
 
 " 快速切换C H源文件
-nmap <Leader>a :A<CR>
+augroup CppKeymaps
+    autocmd!
+    autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
+augroup END
 
 
