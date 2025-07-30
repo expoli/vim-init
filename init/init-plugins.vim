@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/07/30 16:54:09
+" Last Modified: 2025/07/31 00:12:32
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -133,7 +133,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'kshenoy/vim-signature'
 
 	" 用于在侧边符号栏显示 git/svn 的 diff
-	"Plug 'mhinz/vim-signify', { 'lazy': 1 }
+	Plug 'mhinz/vim-signify'
 
 	" 根据 quickfix 中匹配到的错误信息，高亮对应文件的错误行
 	" 使用 :RemoveErrorMarkers 命令或者 <space>ha 清除错误
@@ -159,17 +159,19 @@ if index(g:bundle_group, 'basic') >= 0
 	noremap <silent><space>ha :RemoveErrorMarkers<cr>
 
 	" signify 调优
-	"let g:signify_vcs_list = ['git', 'svn']
-	"let g:signify_sign_add               = '+'
-	"let g:signify_sign_delete            = '_'
-	"let g:signify_sign_delete_first_line = '‾'
-	"let g:signify_sign_change            = '~'
-	"let g:signify_sign_changedelete      = g:signify_sign_change
+	let g:signify_disable_at_startup = 1
+	autocmd VimEnter * silent! SignifyEnable
+	let g:signify_vcs_list = ['git', 'svn']
+	let g:signify_sign_add               = '+'
+	let g:signify_sign_delete            = '_'
+	let g:signify_sign_delete_first_line = '‾'
+	let g:signify_sign_change            = '~'
+	let g:signify_sign_changedelete      = g:signify_sign_change
 
 	" git 仓库使用 histogram 算法进行 diff
-	"let g:signify_vcs_cmds = {
-	"\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
-	"\ }
+	let g:signify_vcs_cmds = {
+		\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
+		\ }
 endif
 
 
@@ -247,26 +249,26 @@ if index(g:bundle_group, 'tags') >= 0
 		silent! call mkdir(s:vim_tags, 'p')
 	endif
 
-		" Defer gutentags initialization until after Vim has started.
-let g:gutentags_enabled = 0
+	" Defer gutentags initialization until after Vim has started.
+	let g:gutentags_enabled = 0
 	augroup GutentagsLazyLoad
 		autocmd!
 		autocmd VimEnter * call s:setup_gutentags_lazy()
 	augroup END
 
 	function! s:setup_gutentags_lazy()
-	let g:gutentags_modules = []
-	if executable('ctags')
-		let g:gutentags_modules += ['ctags']
-	endif
-	if executable('gtags') && executable('gtags-cscope')
-		let g:gutentags_modules += ['gtags_cscope']
-	endif
-let g:gutentags_enabled = 1
+		let g:gutentags_modules = []
+		if executable('ctags')
+			let g:gutentags_modules += ['ctags']
+		endif
+		if executable('gtags') && executable('gtags-cscope')
+			let g:gutentags_modules += ['gtags_cscope']
+		endif
+		let g:gutentags_enabled = 1
 		if exists('*gutentags#init')
 			call gutentags#init()
 		endif
-endfunction
+	endfunction
 
 	" 设置 ctags 的参数
 	let g:gutentags_ctags_extra_args = []
