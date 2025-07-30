@@ -247,26 +247,25 @@ if index(g:bundle_group, 'tags') >= 0
 		silent! call mkdir(s:vim_tags, 'p')
 	endif
 
-	" 默认禁用自动生成
-	let g:gutentags_modules = [] 
-
-" VimEnter is fired after the user interface has been initialized.
-	" Defer gutentags initialization until after Vim has started.
-	augroup GutentagsInit
+		" Defer gutentags initialization until after Vim has started.
+let g:gutentags_enabled = 0
+	augroup GutentagsLazyLoad
 		autocmd!
-		autocmd VimEnter * call s:setup_gutentags()
+		autocmd VimEnter * call s:setup_gutentags_lazy()
 	augroup END
 
-	function! s:setup_gutentags()
-	" 如果有 ctags 可执行就允许动态生成 ctags 文件
+	function! s:setup_gutentags_lazy()
+	let g:gutentags_modules = []
 	if executable('ctags')
 		let g:gutentags_modules += ['ctags']
 	endif
-
-	" 如果有 gtags 可执行就允许动态生成 gtags 数据库
 	if executable('gtags') && executable('gtags-cscope')
 		let g:gutentags_modules += ['gtags_cscope']
 	endif
+let g:gutentags_enabled = 1
+		if exists('*gutentags#init')
+			call gutentags#init()
+		endif
 endfunction
 
 	" 设置 ctags 的参数
