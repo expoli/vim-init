@@ -334,6 +334,7 @@ endif
 " airline
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'airline') >= 0
+	let g:airline_lazyload = 1
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	let g:airline_left_sep = ''
@@ -389,7 +390,6 @@ endif
 " ale：动态语法检查
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'ale') >= 0
-	" Disable ALE at startup and enable it after Vim has started
 	let g:ale_enabled = 0
 	autocmd VimEnter * let g:ale_enabled = 1
 	Plug 'w0rp/ale'
