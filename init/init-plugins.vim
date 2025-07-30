@@ -236,11 +236,16 @@ if index(g:bundle_group, 'tags') >= 0
 	Plug 'skywind3000/gutentags_plus'
 
 	" 设定项目目录标志：除了 .git/.svn 外，还有 .root 文件
-	let g:gutentags_project_root = ['.root']
+	let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
 	let g:gutentags_ctags_tagfile = '.tags'
 
 	" 默认生成的数据文件集中到 ~/.cache/tags 避免污染项目目录，好清理
-	let g:gutentags_cache_dir = expand('~/.cache/tags')
+	let s:vim_tags = expand('~/.cache/tags')
+	let g:gutentags_cache_dir = s:vim_tags
+	" 检测 ~/.cache/tags 不存在就新建 "
+	if !isdirectory(s:vim_tags)
+		silent! call mkdir(s:vim_tags, 'p')
+	endif
 
 	" 默认禁用自动生成
 	let g:gutentags_modules = [] 
