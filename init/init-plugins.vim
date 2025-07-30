@@ -133,7 +133,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'kshenoy/vim-signature'
 
 	" 用于在侧边符号栏显示 git/svn 的 diff
-	Plug 'mhinz/vim-signify'
+	"Plug 'mhinz/vim-signify', { 'lazy': 1 }
 
 	" 根据 quickfix 中匹配到的错误信息，高亮对应文件的错误行
 	" 使用 :RemoveErrorMarkers 命令或者 <space>ha 清除错误
@@ -159,17 +159,17 @@ if index(g:bundle_group, 'basic') >= 0
 	noremap <silent><space>ha :RemoveErrorMarkers<cr>
 
 	" signify 调优
-	let g:signify_vcs_list = ['git', 'svn']
-	let g:signify_sign_add               = '+'
-	let g:signify_sign_delete            = '_'
-	let g:signify_sign_delete_first_line = '‾'
-	let g:signify_sign_change            = '~'
-	let g:signify_sign_changedelete      = g:signify_sign_change
+	"let g:signify_vcs_list = ['git', 'svn']
+	"let g:signify_sign_add               = '+'
+	"let g:signify_sign_delete            = '_'
+	"let g:signify_sign_delete_first_line = '‾'
+	"let g:signify_sign_change            = '~'
+	"let g:signify_sign_changedelete      = g:signify_sign_change
 
 	" git 仓库使用 histogram 算法进行 diff
-	let g:signify_vcs_cmds = {
-			\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
-			\}
+	"let g:signify_vcs_cmds = {
+	"\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
+	"\ }
 endif
 
 
