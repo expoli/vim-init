@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/07/31 00:12:32
+" Last Modified: 2025/07/31 00:21:25
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -169,9 +169,9 @@ if index(g:bundle_group, 'basic') >= 0
 	let g:signify_sign_changedelete      = g:signify_sign_change
 
 	" git 仓库使用 histogram 算法进行 diff
-	let g:signify_vcs_cmds = {
-		\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
-		\ }
+	"let g:signify_vcs_cmds = {
+	"	\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
+	"	\ }
 endif
 
 
