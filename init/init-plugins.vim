@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/04/12 13:50:27
+" Last Modified: 2025/07/30 16:54:09
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -389,6 +389,9 @@ endif
 " ale：动态语法检查
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'ale') >= 0
+	" Disable ALE at startup and enable it after Vim has started
+	let g:ale_enabled = 0
+	autocmd VimEnter * let g:ale_enabled = 1
 	Plug 'w0rp/ale'
 
 	" 设定延迟和提示信息
