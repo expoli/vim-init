@@ -323,7 +323,7 @@ endif
 if index(g:bundle_group, 'textobj') >= 0
 
 	" 基础插件：提供让用户方便的自定义文本对象的接口
-	Plug 'kana/vim-textobj-user', { 'on': [] }
+	Plug 'kana/vim-textobj-user'
 
 	" indent 文本对象：ii/ai 表示当前缩进，vii 选中当缩进，cii 改写缩进
 	Plug 'kana/vim-textobj-indent', { 'on': [] }
@@ -665,7 +665,6 @@ function! s:LoadLazyPlugins()
     call plug#load('vim-easymotion')
     call plug#load('vim-expand-region')
     call plug#load('delimitMate')
-    call plug#load('vim-textobj-user')
     call plug#load('vim-textobj-indent')
     call plug#load('vim-textobj-syntax')
     call plug#load('vim-textobj-function')
