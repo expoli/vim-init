@@ -173,8 +173,8 @@ if index(g:bundle_group, 'basic') >= 0
 			\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
 			\ { 'type': 'sessions',  'header': ['   Sessions']       },
 			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-			\ { 'type': function('s:gitModified'),  'header': ['   git modified']},
-			\ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+			"\ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+			"\ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
 			\ { 'type': 'commands',  'header': ['   Commands']       },
 			\ ]
 
@@ -260,11 +260,11 @@ endif
 if index(g:bundle_group, 'tags') >= 0
 
 	" 提供 ctags/gtags 后台数据库自动更新功能
-	Plug 'skywind3000/vim-gutentags'
+	Plug 'skywind3000/vim-gutentags', { 'on': [] }
 
 	" 提供 GscopeFind 命令并自动处理好 gtags 数据库切换
 	" 支持光标移动到符号名上：<leader>cg 查看定义，<leader>cs 查看引用
-	Plug 'skywind3000/gutentags_plus'
+	Plug 'skywind3000/gutentags_plus', { 'on': [] }
 
 	" 设定项目目录标志：除了 .git/.svn 外，还有 .root 文件
 	let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
@@ -516,7 +516,7 @@ endif
 if index(g:bundle_group, 'leaderf') >= 0
 	" 如果 vim 支持 python 则启用  Leaderf
 	if has('python') || has('python3')
-		Plug 'Yggdroot/LeaderF'
+		Plug 'Yggdroot/LeaderF', { 'on': [] }
 
 		" CTRL+p 打开文件模糊匹配
 		let g:Lf_ShortcutF = '<c-p>'
@@ -670,6 +670,11 @@ function! s:LoadLazyPlugins()
     call plug#load('vim-textobj-uri')
     call plug#load('echodoc.vim')
     call plug#load('vim-auto-popmenu')
+    call plug#load('vim-gutentags')
+    call plug#load('gutentags_plus')
+    call plug#load('LeaderF')
+    "call plug#load('vim-airline-themes')
+	"call plug#load('vim-airline')
 endfunction
 
 
