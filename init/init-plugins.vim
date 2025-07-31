@@ -81,7 +81,7 @@ Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 Plug 'chrisbra/vim-diff-enhanced'
 
 " 低配置缓冲区列表
-Plug 'ap/vim-buftabline'
+Plug 'ap/vim-buftabline', { 'on': [] }
 
 "----------------------------------------------------------------------
 " Dirvish 设置：自动排序并隐藏文件，同时定位到相关文件
@@ -133,7 +133,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'kshenoy/vim-signature', { 'on': [] }
 
 	" 用于在侧边符号栏显示 git/svn 的 diff
-	Plug 'mhinz/vim-signify'
+	Plug 'mhinz/vim-signify', { 'on': [] }
 
 	" 根据 quickfix 中匹配到的错误信息，高亮对应文件的错误行
 	" 使用 :RemoveErrorMarkers 命令或者 <space>ha 清除错误
@@ -146,7 +146,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'skywind3000/vim-preview'
 
 	" Git 支持
-	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-fugitive', { 'on': [] }
 
 	" 使用 ALT+E 来选择窗口
 	nmap <m-e> <Plug>(choosewin)
@@ -176,7 +176,7 @@ if index(g:bundle_group, 'basic') >= 0
 			"\ { 'type': function('s:gitModified'),  'header': ['   git modified']},
 			"\ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
 			\ { 'type': 'commands',  'header': ['   Commands']       },
-			\ ]
+			\]
 
 	" 使用 <space>ha 清除 errormarker 标注的错误
 	noremap <silent><space>ha :RemoveErrorMarkers<cr>
@@ -669,6 +669,9 @@ function! s:LoadLazyPlugins()
     call plug#load('vim-gutentags')
     call plug#load('gutentags_plus')
     call plug#load('LeaderF')
+    call plug#load('vim-buftabline')
+    call plug#load('vim-signify')
+    call plug#load('vim-fugitive')
 endfunction
 
 
