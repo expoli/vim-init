@@ -69,7 +69,7 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 "----------------------------------------------------------------------
 
 " 全文快速移动，<leader><leader>f{char} 即可触发
-Plug 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion', { 'on': [] }
 
 " 文件浏览器，代替 netrw
 Plug 'justinmk/vim-dirvish'
@@ -130,7 +130,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'xolox/vim-misc'
 
 	" 用于在侧边符号栏显示 marks （ma-mz 记录的位置）
-	Plug 'kshenoy/vim-signature'
+	Plug 'kshenoy/vim-signature', { 'on': [] }
 
 	" 用于在侧边符号栏显示 git/svn 的 diff
 	Plug 'mhinz/vim-signify'
@@ -210,7 +210,7 @@ endif
 if index(g:bundle_group, 'enhanced') >= 0
 
 	" 用 v 选中一个区域后，ALT_+/- 按分隔符扩大/缩小选区
-	Plug 'terryma/vim-expand-region'
+	Plug 'terryma/vim-expand-region', { 'on': [] }
 
 	" 快速文件搜索
 	Plug 'junegunn/fzf'
@@ -225,7 +225,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 	"Plug 'dyng/ctrlsf.vim'
 
 	" 配对括号和引号自动补全
-	Plug 'Raimondi/delimitMate'
+	Plug 'Raimondi/delimitMate', { 'on': [] }
 
 	" 启用回车自动格式化
 	let g:delimitMate_expand_cr = 1
@@ -319,25 +319,25 @@ endif
 if index(g:bundle_group, 'textobj') >= 0
 
 	" 基础插件：提供让用户方便的自定义文本对象的接口
-	Plug 'kana/vim-textobj-user'
+	Plug 'kana/vim-textobj-user', { 'on': [] }
 
 	" indent 文本对象：ii/ai 表示当前缩进，vii 选中当缩进，cii 改写缩进
-	Plug 'kana/vim-textobj-indent'
+	Plug 'kana/vim-textobj-indent', { 'on': [] }
 
 	" 语法文本对象：iy/ay 基于语法的文本对象
-	Plug 'kana/vim-textobj-syntax'
+	Plug 'kana/vim-textobj-syntax', { 'on': [] }
 
 	" 函数文本对象：if/af 支持 c/c++/vim/java
-	Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
+	Plug 'kana/vim-textobj-function', { 'on': [], 'for':['c', 'cpp', 'vim', 'java'] }
 
 	" 参数文本对象：i,/a, 包括参数或者列表元素
-	Plug 'sgur/vim-textobj-parameter'
+	Plug 'sgur/vim-textobj-parameter', { 'on': [] }
 
 	" 提供 python 相关文本对象，if/af 表示函数，ic/ac 表示类
-	Plug 'bps/vim-textobj-python', {'for': 'python'}
+	Plug 'bps/vim-textobj-python', { 'on': [], 'for': 'python'}
 
 	" 提供 uri/url 的文本对象，iu/au 表示
-	Plug 'jceb/vim-textobj-uri'
+	Plug 'jceb/vim-textobj-uri', { 'on': [] }
 endif
 
 
@@ -430,8 +430,9 @@ endif
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'ale') >= 0
 	let g:ale_enabled = 0
-	autocmd VimEnter * let g:ale_enabled = 1
-	Plug 'w0rp/ale'
+	autocmd InsertLeave * if !exists('b:ale_enabled') | let b:ale_enabled = 1 | endif
+	"autocmd VimEnter * let g:ale_enabled = 1
+	"Plug 'w0rp/ale'
 
 	" 设定延迟和提示信息
 	let g:ale_completion_delay = 500
@@ -503,7 +504,7 @@ endif
 " echodoc：搭配 YCM/deoplete 在底部显示函数参数
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'echodoc') >= 0
-	Plug 'Shougo/echodoc.vim'
+	Plug 'Shougo/echodoc.vim', { 'on': [] }
 	set noshowmode
 	let g:echodoc#enable_at_startup = 1
 endif
@@ -617,10 +618,10 @@ endif
 "----------------------------------------------------------------------
 " vim-auto-popmenu
 "----------------------------------------------------------------------
-Plug 'skywind3000/vim-auto-popmenu'
+Plug 'skywind3000/vim-auto-popmenu', { 'on': [] }
 
 " enable this plugin for filetypes, '*' for all files.
-let g:apc_enable_ft = {'text': 1, 'markdown':1, 'php':1, 'c': 1, 'c++': 1}
+let g:apc_enable_ft = {'c': 1, 'c++': 1}
 
 " source for dictionary, current or other loaded buffers, see ':help cpt'
 set cpt=.,k,w,b
@@ -644,6 +645,33 @@ Plug 'tomasr/molokai'
 " 结束插件安装
 "----------------------------------------------------------------------
 call plug#end()
+
+augroup LazyLoadPlugins
+    autocmd!
+    autocmd InsertLeave * call s:LoadLazyPlugins()
+augroup END
+
+function! s:LoadLazyPlugins()
+    if exists('g:lazy_plugins_loaded')
+        return
+    endif
+    let g:lazy_plugins_loaded = 1
+
+	call plug#load('vim-signature')
+    call plug#load('vim-easymotion')
+    call plug#load('vim-expand-region')
+    call plug#load('delimitMate')
+    call plug#load('vim-textobj-user')
+    call plug#load('vim-textobj-indent')
+    call plug#load('vim-textobj-syntax')
+    call plug#load('vim-textobj-function')
+    call plug#load('vim-textobj-parameter')
+    call plug#load('vim-textobj-python')
+    call plug#load('vim-textobj-uri')
+    call plug#load('echodoc.vim')
+    call plug#load('vim-auto-popmenu')
+endfunction
+
 
 
 
