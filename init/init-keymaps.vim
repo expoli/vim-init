@@ -22,10 +22,10 @@ let mapleader=";"
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------
-inoremap <c-a> <home>
-inoremap <c-e> <end>
-inoremap <c-d> <del>
-inoremap <c-_> <c-k>
+"inoremap <c-a> <home>
+"inoremap <c-e> <end>
+"inoremap <c-d> <del>
+"inoremap <c-_> <c-k>
 
 "----------------------------------------------------------------------
 " 设置 CTRL+HJKL 移动光标（INSERT 模式偶尔需要移动的方便些）
@@ -159,8 +159,8 @@ function! Tab_MoveRight()
 	endif
 endfunc
 
-noremap <silent><leader>tl :call Tab_MoveLeft()<cr>
-noremap <silent><leader>tr :call Tab_MoveRight()<cr>
+"noremap <silent><leader>tl :call Tab_MoveLeft()<cr>
+"noremap <silent><leader>tr :call Tab_MoveRight()<cr>
 noremap <silent><m-left> :call Tab_MoveLeft()<cr>
 noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
