@@ -65,7 +65,7 @@ call plug#begin(get(g:, 'bundle_home', '~/.vim/bundles'))
 
 
 "----------------------------------------------------------------------
-" 默认插件 
+" 默认插件
 "----------------------------------------------------------------------
 
 " 全文快速移动，<leader><leader>f{char} 即可触发
@@ -229,7 +229,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 
 	" 启用回车自动格式化
 	let g:delimitMate_expand_cr = 1
-	" 启用空格自动格式化      
+	" 启用空格自动格式化
 	let g:delimitMate_expand_space = 1
 	" 自动平衡匹配符号
 	let g:delimitMate_balance_matchpairs = 1
@@ -245,7 +245,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 
 	" 提供 gist 接口
 	Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
-	
+
 	" ALT_+/- 用于按分隔符扩大缩小 v 选区
 	map <m-=> <Plug>(expand_region_expand)
 	map <m--> <Plug>(expand_region_shrink)
@@ -453,6 +453,10 @@ if index(g:bundle_group, 'ale') >= 0
 	" 允许 airline 集成
 	let g:airline#extensions#ale#enabled = 1
 
+	" ALE 和 Airline 插件配置关闭空格告警提示
+	let g:ale_warn_about_trailing_whitespace = 0
+	let g:airline#extensions#whitespace#enabled = 0
+
 	" 编辑不同文件类型需要的语法检查器
 	let g:ale_linters = {
 				\ 'c': ['gcc', 'cppcheck'], 
@@ -587,10 +591,10 @@ if index(g:bundle_group, 'leaderf') >= 0
 
 		" 模糊匹配忽略
 		let g:ctrlp_custom_ignore = {
-		  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-		  \ 'file': '\v\.(exe|so|dll|mp3|wav|sdf|suo|mht)$',
-		  \ 'link': 'some_bad_symbolic_links',
-		  \ }
+			\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+			\ 'file': '\v\.(exe|so|dll|mp3|wav|sdf|suo|mht)$',
+			\ 'link': 'some_bad_symbolic_links',
+			\ }
 
 		" 项目标志
 		let g:ctrlp_root_markers = ['.project', '.root', '.svn', '.git']
@@ -610,9 +614,8 @@ if index(g:bundle_group, 'leaderf') >= 0
 	endif
 endif
 
-
 "----------------------------------------------------------------------
-" vim-auto-popmenu 
+" vim-auto-popmenu
 "----------------------------------------------------------------------
 Plug 'skywind3000/vim-auto-popmenu'
 
@@ -632,7 +635,7 @@ set shortmess+=c
 let g:apc_cr_confirm = 1
 
 "----------------------------------------------------------------------
-" themes  
+" themes
 "----------------------------------------------------------------------
 Plug 'tomasr/molokai'
 
@@ -672,16 +675,16 @@ let g:ycm_semantic_triggers =  {
 "----------------------------------------------------------------------
 " Ycm 白名单（非名单内文件不启用 YCM），避免打开个 1MB 的 txt 分析半天
 "----------------------------------------------------------------------
-let g:ycm_filetype_whitelist = { 
+let g:ycm_filetype_whitelist = {
 			\ "c":1,
-			\ "cpp":1, 
+			\ "cpp":1,
 			\ "objc":1,
 			\ "objcpp":1,
 			\ "python":1,
 			\ "java":1,
 			\ "javascript":1,
 			\ "coffee":1,
-			\ "vim":1, 
+			\ "vim":1,
 			\ "go":1,
 			\ "cs":1,
 			\ "lua":1,
