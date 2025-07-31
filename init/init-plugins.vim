@@ -280,10 +280,6 @@ if index(g:bundle_group, 'tags') >= 0
 
 	" Defer gutentags initialization until after Vim has started.
 	let g:gutentags_enabled = 0
-	augroup GutentagsLazyLoad
-		autocmd!
-		autocmd VimEnter * call s:setup_gutentags_lazy()
-	augroup END
 
 	function! s:setup_gutentags_lazy()
 		let g:gutentags_modules = []
@@ -673,8 +669,6 @@ function! s:LoadLazyPlugins()
     call plug#load('vim-gutentags')
     call plug#load('gutentags_plus')
     call plug#load('LeaderF')
-    "call plug#load('vim-airline-themes')
-	"call plug#load('vim-airline')
 endfunction
 
 
@@ -762,5 +756,3 @@ let g:ycm_filetype_whitelist = {
 			\ "zimbu":1,
 			\ "ps1":1,
 			\ }
-
-
