@@ -50,6 +50,9 @@ set autoread
 " 关闭自动备份
 set nobackup
 
+" default updatetime 4000ms is not good for async update
+set updatetime=100
+
 "----------------------------------------------------------------------
 " vim 7.3新特性：持久撤销 配置
 " 重启后撤销历史可用 persistent undo
