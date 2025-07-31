@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/07/31 00:21:25
+" Last Modified: 2025/07/31 09:32:08
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -122,29 +122,6 @@ if index(g:bundle_group, 'basic') >= 0
 
 	" 展示开始画面，显示最近编辑过的文件
 	Plug 'mhinz/vim-startify', { 'on': 'Startify' }
-	" returns all modified files of the current git repo
-	" `2>/dev/null` makes the command fail quietly, so that when we are not
-	" in a git repo, the list will be empty
-	function! s:gitModified()
-		let files = systemlist('git ls-files -m 2>/dev/null')
-		return map(files, "{'line': v:val, 'path': v:val}")
-	endfunction
-
-	" same as above, but show untracked files, honouring .gitignore
-	function! s:gitUntracked()
-		let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
-		return map(files, "{'line': v:val, 'path': v:val}")
-	endfunction
-
-	let g:startify_lists = [
-			\ { 'type': 'files',     'header': ['   MRU']            },
-			\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-			\ { 'type': 'sessions',  'header': ['   Sessions']       },
-			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-			\ { 'type': function('s:gitModified'),  'header': ['   git modified']},
-			\ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
-			\ { 'type': 'commands',  'header': ['   Commands']       },
-			\ ]
 
 	" 一次性安装一大堆 colorscheme
 	Plug 'flazz/vim-colorschemes'
@@ -177,24 +154,53 @@ if index(g:bundle_group, 'basic') >= 0
 	" 默认不显示 startify
 	let g:startify_disable_at_vimenter = 1
 	let g:startify_session_dir = '~/.vim/session'
+	" returns all modified files of the current git repo
+	" `2>/dev/null` makes the command fail quietly, so that when we are not
+	" in a git repo, the list will be empty
+	function! s:gitModified()
+		let files = systemlist('git ls-files -m 2>/dev/null')
+		return map(files, "{'line': v:val, 'path': v:val}")
+	endfunction
+
+	" same as above, but show untracked files, honouring .gitignore
+	function! s:gitUntracked()
+		let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+		return map(files, "{'line': v:val, 'path': v:val}")
+	endfunction
+
+	let g:startify_lists = [
+			\ { 'type': 'files',     'header': ['   MRU']            },
+			\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+			\ { 'type': 'sessions',  'header': ['   Sessions']       },
+			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+			\ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+			\ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+			\ { 'type': 'commands',  'header': ['   Commands']       },
+			\ ]
 
 	" 使用 <space>ha 清除 errormarker 标注的错误
 	noremap <silent><space>ha :RemoveErrorMarkers<cr>
 
 	" signify 调优
-	let g:signify_disable_at_startup = 1
-	autocmd VimEnter * silent! SignifyEnable
+	" 禁用默认启用（按需启用）
+	let g:signify_disable_by_default = 1
+	let g:signify_priority = 20
+	" 限制特定VCS使用
+	let g:signify_skip = { 'vcs': { 'allow': ['git'] } }
 	let g:signify_vcs_list = ['git', 'svn']
 	let g:signify_sign_add               = '+'
 	let g:signify_sign_delete            = '_'
 	let g:signify_sign_delete_first_line = '‾'
 	let g:signify_sign_change            = '~'
 	let g:signify_sign_changedelete      = g:signify_sign_change
+	let g:signify_number_highlight = 1
+	" 启用行高亮
+	"let g:signify_line_highlight = 1
 
 	" git 仓库使用 histogram 算法进行 diff
-	"let g:signify_vcs_cmds = {
-	"	\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
-	"	\ }
+	let g:signify_vcs_cmds = {
+		\ 'git': 'git diff --no-color --diff-algorithm=histogram --no-ext-diff -U0 -- %f',
+		\ }
 endif
 
 
