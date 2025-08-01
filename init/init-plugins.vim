@@ -12,9 +12,6 @@
 "----------------------------------------------------------------------
 " vim-plug 插件管理器
 "----------------------------------------------------------------------
-"----------------------------------------------------------------------
-" vim-plug 插件管理器
-"----------------------------------------------------------------------
 let plug_vim_path = expand('~/.vim/autoload/plug.vim')
 let plug_ready_path = expand('~/.vim/autoload/plug.vim.ready')
 
@@ -90,6 +87,9 @@ Plug 'chrisbra/vim-diff-enhanced'
 
 " 低配置缓冲区列表
 Plug 'ap/vim-buftabline'
+
+" swtich between source files and header files quickly.
+Plug 'vim-scripts/a.vim'
 
 "----------------------------------------------------------------------
 " Dirvish 设置：自动排序并隐藏文件，同时定位到相关文件
