@@ -600,7 +600,9 @@ function! s:LoadLazyPlugins()
     "call plug#load('vim-auto-popmenu')
     call plug#load('vim-gutentags')
     call plug#load('gutentags_plus')
-    call plug#load('LeaderF')
+	if has('python') || has('python3')
+		call plug#load('LeaderF')
+	endif
     call plug#load('vim-signify')
     " call plug#load('vim-fugitive')
 endfunction
