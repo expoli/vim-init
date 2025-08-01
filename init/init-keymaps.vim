@@ -240,25 +240,25 @@ function! ExecuteFile()
 		let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
 	elseif &ft == 'python'
 		let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
-		let cmd = 'python "$(VIM_FILEPATH)"'"
+		let cmd = 'python "$(VIM_FILEPATH)"'
 	elseif &ft == 'javascript'
-		let cmd = 'node "$(VIM_FILEPATH)"'"
+		let cmd = 'node "$(VIM_FILEPATH)"'
 	elseif &ft == 'perl'
-		let cmd = 'perl "$(VIM_FILEPATH)"'"
+		let cmd = 'perl "$(VIM_FILEPATH)"'
 	elseif &ft == 'ruby'
-		let cmd = 'ruby "$(VIM_FILEPATH)"'"
+		let cmd = 'ruby "$(VIM_FILEPATH)"'
 	elseif &ft == 'php'
-		let cmd = 'php "$(VIM_FILEPATH)"'"
+		let cmd = 'php "$(VIM_FILEPATH)"'
 	elseif &ft == 'lua'
-		let cmd = 'lua "$(VIM_FILEPATH)"'"
+		let cmd = 'lua "$(VIM_FILEPATH)"'
 	elseif &ft == 'zsh'
-		let cmd = 'zsh "$(VIM_FILEPATH)"'"
+		let cmd = 'zsh "$(VIM_FILEPATH)"'
 	elseif &ft == 'ps1'
-		let cmd = 'powershell -file "$(VIM_FILEPATH)"'"
+		let cmd = 'powershell -file "$(VIM_FILEPATH)"'
 	elseif &ft == 'vbs'
-		let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'"
+		let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
 	elseif &ft == 'sh'
-		let cmd = 'bash "$(VIM_FILEPATH)"'"
+		let cmd = 'bash "$(VIM_FILEPATH)"'
 	else
 		return
 	endif
