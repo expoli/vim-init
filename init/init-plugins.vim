@@ -12,30 +12,38 @@
 "----------------------------------------------------------------------
 " vim-plug 插件管理器
 "----------------------------------------------------------------------
-" 初始化 vim-plug
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"----------------------------------------------------------------------
+" vim-plug 插件管理器
+"----------------------------------------------------------------------
+let plug_vim_path = expand('~/.vim/autoload/plug.vim')
+let plug_ready_path = expand('~/.vim/autoload/plug.vim.ready')
+
+if empty(glob(plug_vim_path))
+  let curl_cmd = 'curl -fLo ' . shellescape(plug_vim_path) . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  silent execute '!'.curl_cmd
   if v:shell_error
-    " just in case of github access failure
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    " retry second time
+    silent execute '!'.curl_cmd
     if v:shell_error
-      exit
+      echoerr "Failed to download plug.vim"
+      finish
     else
-      silent !touch ~/.vim/autoload/plug.vim.ready
+      call mkdir(fnamemodify(plug_ready_path, ':h'), 'p')
+      call writefile([], plug_ready_path)
     endif
   else
-    silent !touch ~/.vim/autoload/plug.vim.ready
+    call mkdir(fnamemodify(plug_ready_path, ':h'), 'p')
+    call writefile([], plug_ready_path)
   endif
 endif
 
-if !empty(glob('~/.vim/autoload/plug.vim.ready'))
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    if !v:shell_error
-      silent !rm -f "$HOME/.vim/autoload/plug.vim.ready"
-    endif
+if !empty(glob(plug_ready_path))
+  autocmd VimEnter * ++once PlugInstall --sync | source $MYVIMRC | call DeletePlugReady()
 endif
+
+function! DeletePlugReady()
+  silent! call delete(expand('~/.vim/autoload/plug.vim.ready'))
+endfunction
 
 "----------------------------------------------------------------------
 " 默认情况下的分组，可以再前面覆盖之

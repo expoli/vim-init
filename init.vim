@@ -24,7 +24,7 @@ command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
 set rtp+=~/.vim
 
 " 将 vim-init 目录加入 runtimepath
-set rtp+=.s:home
+execute 'set rtp+=' . s:home
 
 "----------------------------------------------------------------------
 " 模块加载
