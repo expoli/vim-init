@@ -433,10 +433,10 @@ endif
 " ale：动态语法检查
 "----------------------------------------------------------------------
 if index(g:bundle_group, 'ale') >= 0
-	let g:ale_enabled = 0
-	autocmd InsertLeave * if !exists('b:ale_enabled') | let b:ale_enabled = 1 | endif
+	"let g:ale_enabled = 0
+	"autocmd InsertLeave * if !exists('b:ale_enabled') | let b:ale_enabled = 1 | endif
 	"autocmd VimEnter * let g:ale_enabled = 1
-	"Plug 'w0rp/ale'
+	Plug 'w0rp/ale', { 'on': [] }
 
 	" 设定延迟和提示信息
 	let g:ale_completion_delay = 500
@@ -678,6 +678,7 @@ function! s:LoadLazyPlugins()
     call plug#load('LeaderF')
     call plug#load('vim-signify')
     call plug#load('vim-fugitive')
+	call plug#load('ale')
 endfunction
 
 
