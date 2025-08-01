@@ -422,10 +422,25 @@ if executable('cscope')
 
     augroup CscopeKeymaps
         autocmd!
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>
+        " <Leader>ca (查找符号的赋值)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>
+        " <Leader>cc (查找调用本函数的函数)
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>
+        " <Leader>cd (查找本函数调用的函数)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>
+        " <Leader>ce (查找egrep模式)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>
+        " <Leader>cf (查找文件)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>
+        " <Leader>cg (查找全局定义)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>
+        " <Leader>ci (查找包含本文件的文件)
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>
+        " <Leader>cs (查找C符号)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>
+        " <Leader>ct (查找文本字符串)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>
+        " <Leader>cR (重新生成cscope数据库)
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>
     augroup END
 endif
