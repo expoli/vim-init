@@ -369,10 +369,10 @@ endfunc
 nnoremap <Leader>gs <C-W><C-W>
 
 " 向左
-nnoremap <leader>h <C-W><C-H>
+nnoremap <Leader>h <C-W><C-H>
 
 " 向右
-noremap <leader>l <C-W><C-L>
+noremap <Leader>l <C-W><C-L>
 
 " 向上
 nnoremap <Leader>k <C-W><C-K>
