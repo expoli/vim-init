@@ -547,10 +547,10 @@ endif
 "----------------------------------------------------------------------
 " vim-auto-popmenu
 "----------------------------------------------------------------------
-Plug 'skywind3000/vim-auto-popmenu', { 'on': [] }
+Plug 'skywind3000/vim-auto-popmenu'
 
 " enable this plugin for filetypes, '*' for all files.
-let g:apc_enable_ft = {'c': 1, 'c++': 1}
+let g:apc_enable_ft = {'c': 1, 'c++': 1, 'shell': 1, 'php': 1, 'rust': 1, 'python': 1, 'sh': 1, 'bash': 1}
 
 " source for dictionary, current or other loaded buffers, see ':help cpt'
 set cpt=.,k,w,b
@@ -597,7 +597,7 @@ function! s:LoadLazyPlugins()
     call plug#load('vim-textobj-python')
     call plug#load('vim-textobj-uri')
     call plug#load('echodoc.vim')
-    call plug#load('vim-auto-popmenu')
+    "call plug#load('vim-auto-popmenu')
     call plug#load('vim-gutentags')
     call plug#load('gutentags_plus')
     call plug#load('LeaderF')
