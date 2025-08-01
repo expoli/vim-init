@@ -221,21 +221,6 @@ nmap <Leader>u <C-U>
 nmap <Leader>d <C-D>
 
 "----------------------------------------------------------------------
-" 文件快速键操作 (Eagerly Loaded)
-"----------------------------------------------------------------------
-" 打开文件
-nmap <Leader>e :e<Space>
-
-" 不关闭文件推出
-nmap <Leader>z <C-Z>
-
-" 快速切换C H源文件
-augroup CppKeymaps
-    autocmd!
-    autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
-augroup END
-
-"----------------------------------------------------------------------
 " 编译运行 C/C++ 项目
 " 详细见：http://www.skywind.me/blog/archives/2084
 "----------------------------------------------------------------------
