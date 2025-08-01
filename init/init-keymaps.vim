@@ -58,117 +58,181 @@ cnoremap <c-_> <c-k>
 
 
 "----------------------------------------------------------------------
-" <leader>+数字键 切换tab
+" <leader>+数字键 切换tab (Eagerly Loaded)
 "----------------------------------------------------------------------
-function! s:SetupKeymaps()
-    if exists('g:keymaps_setup')
-        return
-    endif
-    let g:keymaps_setup = 1
+noremap <silent><leader>1 1gt<cr>
+noremap <silent><leader>2 2gt<cr>
+noremap <silent><leader>3 3gt<cr>
+noremap <silent><leader>4 4gt<cr>
+noremap <silent><leader>5 5gt<cr>
+noremap <silent><leader>6 6gt<cr>
+noremap <silent><leader>7 7gt<cr>
+noremap <silent><leader>8 8gt<cr>
+noremap <silent><leader>9 9gt<cr>
+noremap <silent><leader>0 10gt<cr>
 
-    noremap <silent><leader>1 1gt<cr>
-    noremap <silent><leader>2 2gt<cr>
-    noremap <silent><leader>3 3gt<cr>
-    noremap <silent><leader>4 4gt<cr>
-    noremap <silent><leader>5 5gt<cr>
-    noremap <silent><leader>6 6gt<cr>
-    noremap <silent><leader>7 7gt<cr>
-    noremap <silent><leader>8 8gt<cr>
-    noremap <silent><leader>9 9gt<cr>
-    noremap <silent><leader>0 10gt<cr>
 
-    noremap <silent><m-1> :tabn 1<cr>
-    noremap <silent><m-2> :tabn 2<cr>
-    noremap <silent><m-3> :tabn 3<cr>
-    noremap <silent><m-4> :tabn 4<cr>
-    noremap <silent><m-5> :tabn 5<cr>
-    noremap <silent><m-6> :tabn 6<cr>
-    noremap <silent><m-7> :tabn 7<cr>
-    noremap <silent><m-8> :tabn 8<cr>
-    noremap <silent><m-9> :tabn 9<cr>
-    noremap <silent><m-0> :tabn 10<cr>
-    inoremap <silent><m-1> <ESC>:tabn 1<cr>
-    inoremap <silent><m-2> <ESC>:tabn 2<cr>
-    inoremap <silent><m-3> <ESC>:tabn 3<cr>
-    inoremap <silent><m-4> <ESC>:tabn 4<cr>
-    inoremap <silent><m-5> <ESC>:tabn 5<cr>
-    inoremap <silent><m-6> <ESC>:tabn 6<cr>
-    inoremap <silent><m-7> <ESC>:tabn 7<cr>
-    inoremap <silent><m-8> <ESC>:tabn 8<cr>
-    inoremap <silent><m-9> <ESC>:tabn 9<cr>
-    inoremap <silent><m-0> <ESC>:tabn 10<cr>
+"----------------------------------------------------------------------
+" ALT+N 切换 tab (Eagerly Loaded)
+"----------------------------------------------------------------------
+noremap <silent><m-1> :tabn 1<cr>
+noremap <silent><m-2> :tabn 2<cr>
+noremap <silent><m-3> :tabn 3<cr>
+noremap <silent><m-4> :tabn 4<cr>
+noremap <silent><m-5> :tabn 5<cr>
+noremap <silent><m-6> :tabn 6<cr>
+noremap <silent><m-7> :tabn 7<cr>
+noremap <silent><m-8> :tabn 8<cr>
+noremap <silent><m-9> :tabn 9<cr>
+noremap <silent><m-0> :tabn 10<cr>
+inoremap <silent><m-1> <ESC>:tabn 1<cr>
+inoremap <silent><m-2> <ESC>:tabn 2<cr>
+inoremap <silent><m-3> <ESC>:tabn 3<cr>
+inoremap <silent><m-4> <ESC>:tabn 4<cr>
+inoremap <silent><m-5> <ESC>:tabn 5<cr>
+inoremap <silent><m-6> <ESC>:tabn 6<cr>
+inoremap <silent><m-7> <ESC>:tabn 7<cr>
+inoremap <silent><m-8> <ESC>:tabn 8<cr>
+inoremap <silent><m-9> <ESC>:tabn 9<cr>
+inoremap <silent><m-0> <ESC>:tabn 10<cr>
 
-    if has("gui_macvim")
-        set macmeta
-        noremap <silent><d-1> :tabn 1<cr>
-        noremap <silent><d-2> :tabn 2<cr>
-        noremap <silent><d-3> :tabn 3<cr>
-        noremap <silent><d-4> :tabn 4<cr>
-        noremap <silent><d-5> :tabn 5<cr>
-        noremap <silent><d-6> :tabn 6<cr>
-        noremap <silent><d-7> :tabn 7<cr>
-        noremap <silent><d-8> :tabn 8<cr>
-        noremap <silent><d-9> :tabn 9<cr>
-        noremap <silent><d-0> :tabn 10<cr>
-        inoremap <silent><d-1> <ESC>:tabn 1<cr>
-        inoremap <silent><d-2> <ESC>:tabn 2<cr>
-        inoremap <silent><d-3> <ESC>:tabn 3<cr>
-        inoremap <silent><d-4> <ESC>:tabn 4<cr>
-        inoremap <silent><d-5> <ESC>:tabn 5<cr>
-        inoremap <silent><d-6> <ESC>:tabn 6<cr>
-        inoremap <silent><d-7> <ESC>:tabn 7<cr>
-        inoremap <silent><d-8> <ESC>:tabn 8<cr>
-        inoremap <silent><d-9> <ESC>:tabn 9<cr>
-        inoremap <silent><d-0> <ESC>:tabn 10<cr>
-    endif
 
-    noremap <silent> <leader>bn :bn<cr>
-    noremap <silent> <leader>bp :bp<cr>
+" MacVim 允许 CMD+数字键快速切换标签 (Eagerly Loaded)
+if has("gui_macvim")
+	set macmeta
+	noremap <silent><d-1> :tabn 1<cr>
+	noremap <silent><d-2> :tabn 2<cr>
+	noremap <silent><d-3> :tabn 3<cr>
+	noremap <silent><d-4> :tabn 4<cr>
+	noremap <silent><d-5> :tabn 5<cr>
+	noremap <silent><d-6> :tabn 6<cr>
+	noremap <silent><d-7> :tabn 7<cr>
+	noremap <silent><d-8> :tabn 8<cr>
+	noremap <silent><d-9> :tabn 9<cr>
+	noremap <silent><d-0> :tabn 10<cr>
+	inoremap <silent><d-1> <ESC>:tabn 1<cr>
+	inoremap <silent><d-2> <ESC>:tabn 2<cr>
+	inoremap <silent><d-3> <ESC>:tabn 3<cr>
+	inoremap <silent><d-4> <ESC>:tabn 4<cr>
+	inoremap <silent><d-5> <ESC>:tabn 5<cr>
+	inoremap <silent><d-6> <ESC>:tabn 6<cr>
+	inoremap <silent><d-7> <ESC>:tabn 7<cr>
+	inoremap <silent><d-8> <ESC>:tabn 8<cr>
+	inoremap <silent><d-9> <ESC>:tabn 9<cr>
+	inoremap <silent><d-0> <ESC>:tabn 10<cr>
+endif
 
-    noremap <silent> <leader>tc :tabnew<cr>
-    noremap <silent> <leader>tq :tabclose<cr>
-    noremap <silent> <leader>tn :tabnext<cr>
-    noremap <silent> <leader>tp :tabprev<cr>
-    noremap <silent> <leader>to :tabonly<cr>
 
-    noremap <silent><m-left> :call Tab_MoveLeft()<cr>
-    noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
-    noremap <m-h> b
-    noremap <m-l> w
-    inoremap <m-h> <c-left>
-    inoremap <m-l> <c-right>
+"----------------------------------------------------------------------
+" 缓存：插件 unimpaired 中定义了 [b, ]b 来切换缓存 (Eagerly Loaded)
+"----------------------------------------------------------------------
+noremap <silent> <leader>bn :bn<cr>
+noremap <silent> <leader>bp :bp<cr>
 
-    nnoremap <m-j> gj
-    nnoremap <m-k> gk
-    inoremap <m-j> <c-\><c-o>gj
-    inoremap <m-k> <c-\><c-o>gk
 
-    cnoremap <m-h> <c-left>
-    cnoremap <m-l> <c-right>
+"----------------------------------------------------------------------
+" TAB：创建，关闭，上一个，下一个，左移，右移 (Eagerly Loaded)
+" 其实还可以用原生的 CTRL+PageUp, CTRL+PageDown 来切换标签
+"----------------------------------------------------------------------
 
-    nnoremap <m-y> d$
-    inoremap <m-y> <c-\><c-o>d$
+noremap <silent> <leader>tc :tabnew<cr>
+noremap <silent> <leader>tq :tabclose<cr>
+noremap <silent> <leader>tn :tabnext<cr>
+noremap <silent> <leader>tp :tabprev<cr>
+noremap <silent> <leader>to :tabonly<cr>
 
-    nnoremap <Leader>gs <C-W><C-W>
-    nnoremap <leader>h <C-W><C-H>
-    nnoremap <leader>l <C-W><C-L>
-    nnoremap <Leader>k <C-W><C-K>
-    nnoremap <Leader>j <C-W><C-J>
 
-    nmap <Leader>s :Sex<CR>
-    nmap <Leader>v :Vex<CR>
+" 左移 tab
+function! Tab_MoveLeft()
+	let l:tabnr = tabpagenr() - 2
+	if l:tabnr >= 0
+		exec 'tabmove '.l:tabnr
+	endif
+endfunc
 
-    nmap <Leader>u <C-U>
-    nmap <Leader>d <C-D>
+" 右移 tab
+function! Tab_MoveRight()
+	let l:tabnr = tabpagenr() + 1
+	if l:tabnr <= tabpagenr('$')
+		exec 'tabmove '.l:tabnr
+	endif
+endfunc
 
-    nmap <Leader>e :e<Space>
-    nmap <Leader>z <C-Z>
-endfunction
+"noremap <silent><leader>tl :call Tab_MoveLeft()<cr>
+"noremap <silent><leader>tr :call Tab_MoveRight()<cr>
+noremap <silent><m-left> :call Tab_MoveLeft()<cr>
+noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
-augroup KeymapsLazyLoad
+
+"----------------------------------------------------------------------
+" ALT 键移动增强 (Eagerly Loaded)
+"----------------------------------------------------------------------
+
+" ALT+h/l 快速左右按单词移动（正常模式+插入模式）
+noremap <m-h> b
+noremap <m-l> w
+inoremap <m-h> <c-left>
+inoremap <m-l> <c-right>
+
+" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转） 
+noremap <m-j> gj
+noremap <m-k> gk
+inoremap <m-j> <c-\><c-o>gj
+inoremap <m-k> <c-\><c-o>gk
+
+" 命令模式下的相同快捷
+cnoremap <m-h> <c-left>
+cnoremap <m-l> <c-right>
+
+" ALT+y 删除到行末
+noremap <m-y> d$
+inoremap <m-y> <c-\><c-o>d$
+
+
+"----------------------------------------------------------------------
+" 快捷键窗口操作 (Eagerly Loaded)
+"----------------------------------------------------------------------
+" 设置快捷键gs遍历各分割窗口。快捷键速记法：goto the next spilt window
+nnoremap <Leader>gs <C-W><C-W>
+
+" 向左
+nnoremap <leader>h <C-W><C-H>
+
+" 向右
+noremap <leader>l <C-W><C-L>
+
+" 向上
+nnoremap <Leader>k <C-W><C-K>
+
+" 向下
+nnoremap <Leader>j <C-W><C-J>
+
+" 水平分隔
+nmap <Leader>s :Sex<CR>
+
+" 竖直分隔
+nmap <Leader>v :Vex<CR>
+
+" 向下翻半屏
+nmap <Leader>u <C-U>
+
+" 向上翻半屏
+nmap <Leader>d <C-D>
+
+"----------------------------------------------------------------------
+" 文件快速键操作 (Eagerly Loaded)
+"----------------------------------------------------------------------
+" 打开文件
+nmap <Leader>e :e<Space>
+
+" 不关闭文件推出
+nmap <Leader>z <C-Z>
+
+" 快速切换C H源文件
+augroup CppKeymaps
     autocmd!
-    autocmd InsertLeave * call s:SetupKeymaps()
+    autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
 augroup END
 
 "----------------------------------------------------------------------
@@ -314,7 +378,7 @@ func SetCollor()
 endfunc
 
 "----------------------------------------------------------------------
-" 快捷键窗口操作
+" 快捷键窗口操作 (Eagerly Loaded)
 "----------------------------------------------------------------------
 " 设置快捷键gs遍历各分割窗口。快捷键速记法：goto the next spilt window
 nnoremap <Leader>gs <C-W><C-W>
@@ -323,7 +387,7 @@ nnoremap <Leader>gs <C-W><C-W>
 nnoremap <leader>h <C-W><C-H>
 
 " 向右
-nnoremap <leader>l <C-W><C-L>
+noremap <leader>l <C-W><C-L>
 
 " 向上
 nnoremap <Leader>k <C-W><C-K>
@@ -344,7 +408,7 @@ nmap <Leader>u <C-U>
 nmap <Leader>d <C-D>
 
 "----------------------------------------------------------------------
-" 文件快速键操作
+" 文件快速键操作 (Eagerly Loaded)
 "----------------------------------------------------------------------
 " 打开文件
 nmap <Leader>e :e<Space>
@@ -357,3 +421,26 @@ augroup CppKeymaps
     autocmd!
     autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
 augroup END
+
+"----------------------------------------------------------------------
+" Cscope 快捷键
+"----------------------------------------------------------------------
+if executable('cscope')
+    function! CscopeFind(type)
+        if !filereadable('cscope.out')
+            echo "cscope.out not found. Generating new database..."
+            !cscope -b -q -k -R
+            echo "Cscope database generated."
+        endif
+        execute 'cs find ' . a:type . ' ' . expand('<cword>')
+    endfunction
+
+    augroup CscopeKeymaps
+        autocmd!
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>
+    augroup END
+endif
