@@ -154,7 +154,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'skywind3000/vim-preview'
 
 	" Git 支持
-	Plug 'tpope/vim-fugitive', { 'on': [] }
+	" Plug 'tpope/vim-fugitive', { 'on': [] }
 
 	" 使用 ALT+E 来选择窗口
 	nmap <m-e> <Plug>(choosewin)
@@ -390,7 +390,7 @@ if index(g:bundle_group, 'airline') >= 0
 	let g:airline_theme='deus'
 	let g:airline#extensions#branch#enabled = 0
 	let g:airline#extensions#syntastic#enabled = 0
-	let g:airline#extensions#fugitiveline#enabled = 0
+	" let g:airline#extensions#fugitiveline#enabled = 1
 	let g:airline#extensions#csv#enabled = 0
 	let g:airline#extensions#vimagit#enabled = 0
 endif
@@ -602,7 +602,7 @@ function! s:LoadLazyPlugins()
     call plug#load('gutentags_plus')
     call plug#load('LeaderF')
     call plug#load('vim-signify')
-    call plug#load('vim-fugitive')
+    " call plug#load('vim-fugitive')
 endfunction
 
 
