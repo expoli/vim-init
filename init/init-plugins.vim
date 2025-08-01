@@ -89,7 +89,7 @@ Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 Plug 'chrisbra/vim-diff-enhanced'
 
 " 低配置缓冲区列表
-Plug 'ap/vim-buftabline', { 'on': [] }
+Plug 'ap/vim-buftabline'
 
 "----------------------------------------------------------------------
 " Dirvish 设置：自动排序并隐藏文件，同时定位到相关文件
@@ -676,7 +676,6 @@ function! s:LoadLazyPlugins()
     call plug#load('vim-gutentags')
     call plug#load('gutentags_plus')
     call plug#load('LeaderF')
-    call plug#load('vim-buftabline')
     call plug#load('vim-signify')
     call plug#load('vim-fugitive')
 endfunction
