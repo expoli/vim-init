@@ -191,7 +191,7 @@ if index(g:bundle_group, 'basic') >= 0
 
 	" signify 调优
 	" 禁用默认启用（按需启用）
-	let g:signify_disable_by_default = 1
+	"let g:signify_disable_by_default = 1
 	let g:signify_priority = 20
 	" 限制特定VCS使用
 	let g:signify_skip = { 'vcs': { 'allow': ['git'] } }
