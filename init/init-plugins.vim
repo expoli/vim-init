@@ -252,7 +252,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 	augroup END
 
 	" 提供 gist 接口
-	Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
+	" Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
 
 	" ALT_+/- 用于按分隔符扩大缩小 v 选区
 	map <m-=> <Plug>(expand_region_expand)
