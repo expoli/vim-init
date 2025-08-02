@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/07/31 09:32:08
+" Last Modified: 2025/08/02 10:05:12
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -154,7 +154,7 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'skywind3000/vim-preview'
 
 	" Git 支持
-	" Plug 'tpope/vim-fugitive', { 'on': [] }
+	Plug 'tpope/vim-fugitive'
 
 	" 使用 ALT+E 来选择窗口
 	nmap <m-e> <Plug>(choosewin)
@@ -605,7 +605,7 @@ function! s:LoadLazyPlugins()
 		call plug#load('LeaderF')
 	endif
     call plug#load('vim-signify')
-    " call plug#load('vim-fugitive')
+    "call plug#load('vim-fugitive')
 endfunction
 
 
