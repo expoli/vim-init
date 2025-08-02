@@ -3,7 +3,7 @@
 " init-tabsize.vim - 大部分人对 tabsize 都有自己的设置，改这里即可
 "
 " Created by skywind on 2018/05/30
-" Last Modified: 2025/06/19 13:59:15
+" Last Modified: 2025/08/02 10:51:30
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -35,14 +35,14 @@ augroup PythonTab
 augroup END
 
 augroup YamlTab
-    au!
-    " 针对 YAML 文件，禁用 expandtab，使用真正的 Tab
-    au FileType yaml setlocal shiftwidth=2 tabstop=2 noexpandtab
+	au!
+	" 针对 YAML 文件，禁用 expandtab，使用真正的 Tab
+	au FileType yaml setlocal shiftwidth=2 tabstop=2 noexpandtab
 augroup END
 
 augroup MakefileTab
-    au!
-    " Makefile 必须使用真正的 Tab，不能展开为空格
-    au FileType make setlocal noexpandtab shiftwidth=8 tabstop=8
+	au!
+	" Makefile 必须使用真正的 Tab，不能展开为空格
+	au FileType make setlocal noexpandtab shiftwidth=8 tabstop=8
 augroup END
 

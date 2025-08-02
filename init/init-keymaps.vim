@@ -175,7 +175,7 @@ noremap <m-l> w
 inoremap <m-h> <c-left>
 inoremap <m-l> <c-right>
 
-" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转） 
+" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转）
 noremap <m-j> gj
 noremap <m-k> gk
 inoremap <m-j> <c-\><c-o>gj
@@ -237,44 +237,44 @@ let s:exec_ft = 'c,cpp,python,go,rust,javascript,perl,ruby,php,lua,zsh,ps1,vbs,s
 let s:grep_ft = 'c,cpp,python,javascript,vim'
 
 augroup ProgrammingKeymaps
-    autocmd!
+	autocmd!
 
-    " F10: 打开/关闭 Quickfix 窗口
-    exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F10> :call asyncrun#quickfix_toggle(6)<cr>"
-    " F5: 运行当前文件
-    exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F5> :call ExecuteFile()<cr>"
-    " F7: 编译项目 (make)
-    exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F7> :AsyncRun -cwd=<root> make <cr>"
-    " F8: 运行项目 (make run)
-    exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>"
-    " F6: 测试项目 (make test)
-    exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>"
+	" F10: 打开/关闭 Quickfix 窗口
+	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F10> :call asyncrun#quickfix_toggle(6)<cr>"
+	" F5: 运行当前文件
+	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F5> :call ExecuteFile()<cr>"
+	" F7: 编译项目 (make)
+	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F7> :AsyncRun -cwd=<root> make <cr>"
+	" F8: 运行项目 (make run)
+	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>"
+	" F6: 测试项目 (make test)
+	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>"
 
-    " F9: 编译 C/C++ 单个文件
-    autocmd FileType c,cpp nnoremap <buffer><silent> <F9> :AsyncRun gcc -Wall -O2 \"$(VIM_FILEPATH)\" -o \"$(VIM_FILEDIR)/$(VIM_FILENOEXT)\" <cr>"
+	" F9: 编译 C/C++ 单个文件
+	autocmd FileType c,cpp nnoremap <buffer><silent> <F9> :AsyncRun gcc -Wall -O2 \"$(VIM_FILEPATH)\" -o \"$(VIM_FILEDIR)/$(VIM_FILENOEXT)\" <cr>"
 
-    " F4: 更新 CMake 项目
-    autocmd FileType c,cpp,cmake nnoremap <buffer><silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>"
+	" F4: 更新 CMake 项目
+	autocmd FileType c,cpp,cmake nnoremap <buffer><silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>"
 
-    " Windows 下的特殊设置: F8 在新窗口中运行
-    if has('win32') || has('win64')
-        exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>"
-    endif
+	" Windows 下的特殊设置: F8 在新窗口中运行
+	if has('win32') || has('win64')
+		exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>"
+	endif
 
-    " F2: 在项目目录下 Grep 光标下的单词
-    if executable('rg')
-        exec "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> rg -n --no-heading " .
-            \ " --color never -g *.h -g *.c* -g *.py -g *.js -g *.vim " .
-            \ " <C-R><C-W> \"<root>\" <cr>"
-    elseif has('win32') || has('win64')
-        exec "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> findstr /n /s /C:\"<C-R><C-W>\" " .
-            \ " \"\\%CD\\%\\*.h\" \"\\%CD\\%\\*.c*\" \"\\%CD\\%\\*.py\" \"\\%CD\\%\\*.js\" \"\\%CD\\%\\*.vim\" <cr>"
-    else
-        let s:grep_cmd = "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> grep -n -s -R <C-R><C-W>"
-        let s:grep_cmd .= " --include='*.h' --include='*.c*' --include='*.py'"
-        let s:grep_cmd .= " --include='*.js' --include='*.vim\' '<root>' <cr>"
-        exec s:grep_cmd
-    endif
+	" F2: 在项目目录下 Grep 光标下的单词
+	if executable('rg')
+		exec "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> rg -n --no-heading " .
+			\ " --color never -g *.h -g *.c* -g *.py -g *.js -g *.vim " .
+			\ " <C-R><C-W> \"<root>\" <cr>"
+	elseif has('win32') || has('win64')
+		exec "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> findstr /n /s /C:\"<C-R><C-W>\" " .
+			\ " \"\\%CD\\%\\*.h\" \"\\%CD\\%\\*.c*\" \"\\%CD\\%\\*.py\" \"\\%CD\\%\\*.js\" \"\\%CD\\%\\*.vim\" <cr>"
+	else
+		let s:grep_cmd = "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> grep -n -s -R <C-R><C-W>"
+		let s:grep_cmd .= " --include='*.h' --include='*.c*' --include='*.py'"
+		let s:grep_cmd .= " --include='*.js' --include='*.vim\' '<root>' <cr>"
+		exec s:grep_cmd
+	endif
 augroup END
 
 "----------------------------------------------------------------------
@@ -327,39 +327,39 @@ endfunc
 " markdown 的一些快捷键
 "----------------------------------------------------------------------
 augroup MarkdownKeymaps
-    autocmd!
-    autocmd FileType markdown nnoremap <buffer><silent> tm :call SetTime()<CR>
-    autocmd FileType markdown nnoremap <buffer><silent> tb :call SetTable()<CR>
-    autocmd FileType markdown nnoremap <buffer><silent> pc :call SetPic()<CR>
-    autocmd FileType markdown nnoremap <buffer><silent> pi :call SetPic1()<CR>
-    autocmd FileType markdown nnoremap <buffer><silent> vi :call SetVideo()<CR>
-    autocmd FileType markdown nnoremap <buffer><silent> cl :call SetCollor()<CR>
+	autocmd!
+	autocmd FileType markdown nnoremap <buffer><silent> tm :call SetTime()<CR>
+	autocmd FileType markdown nnoremap <buffer><silent> tb :call SetTable()<CR>
+	autocmd FileType markdown nnoremap <buffer><silent> pc :call SetPic()<CR>
+	autocmd FileType markdown nnoremap <buffer><silent> pi :call SetPic1()<CR>
+	autocmd FileType markdown nnoremap <buffer><silent> vi :call SetVideo()<CR>
+	autocmd FileType markdown nnoremap <buffer><silent> cl :call SetCollor()<CR>
 augroup END
 
 func SetTime()
-        call append(line("."), "# ".strftime('%a %d %b %Y'))
+	call append(line("."), "# ".strftime('%a %d %b %Y'))
 endfunc
 
 func SetTable()
-        call append(line(".")+0, "| | | ")
-        call append(line(".")+1, "|---|---|")
-        call append(line(".")+2, "| | |")
+	call append(line(".")+0, "| | | ")
+	call append(line(".")+1, "|---|---|")
+	call append(line(".")+2, "| | |")
 endfunc
 
 func SetPic()
-        call append(line("."), "<img src='' width=600 alt=''> </img></div>")
+	call append(line("."), "<img src='' width=600 alt=''> </img></div>")
 endfunc
 
 func SetPic1()
-        call append(line("."), "![]()")
+	call append(line("."), "![]()")
 endfunc
 
 func SetVideo()
-        call append(line("."), "<video src='1.mp4' controls='controls' width='640' height='320' autoplay='autoplay'> Your browser does not support the video tag.</div>")
+	call append(line("."), "<video src='1.mp4' controls='controls' width='640' height='320' autoplay='autoplay'> Your browser does not support the video tag.</div>")
 endfunc
 
 func SetCollor()
-        call append(line("."), "<span  style='color: #f16707;'> </span>")
+	call append(line("."), "<span  style='color: #f16707;'> </span>")
 endfunc
 
 "----------------------------------------------------------------------
@@ -403,44 +403,45 @@ nmap <Leader>z <C-Z>
 
 " 快速切换C H源文件
 augroup CppKeymaps
-    autocmd!
-    autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
+	autocmd!
+	autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
 augroup END
 
 "----------------------------------------------------------------------
 " Cscope 快捷键
 "----------------------------------------------------------------------
 if executable('cscope')
-    function! CscopeFind(type)
-        if !filereadable('cscope.out')
-            echo "cscope.out not found. Generating new database..."
-            !cscope -b -q -k -R
-            echo "Cscope database generated."
-        endif
-        execute 'cs find ' . a:type . ' ' . expand('<cword>')
-    endfunction
+	function! CscopeFind(type)
+		if !filereadable('cscope.out')
+			echo "cscope.out not found. Generating new database..."
+			!cscope -b -q -k -R
+			echo "Cscope database generated."
+		endif
+		execute 'cs find ' . a:type . ' ' . expand('<cword>')
+	endfunction
 
-    augroup CscopeKeymaps
-        autocmd!
-        " <Leader>ca (查找符号的赋值)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>
-        " <Leader>cc (查找调用本函数的函数)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>
-        " <Leader>cd (查找本函数调用的函数)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>
-        " <Leader>ce (查找egrep模式)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>
-        " <Leader>cf (查找文件)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>
-        " <Leader>cg (查找全局定义)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>
-        " <Leader>ci (查找包含本文件的文件)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>
-        " <Leader>cs (查找C符号)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>
-        " <Leader>ct (查找文本字符串)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>
-        " <Leader>cR (重新生成cscope数据库)
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>
-    augroup END
+	augroup CscopeKeymaps
+		autocmd!
+		" <Leader>ca (查找符号的赋值)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>
+		" <Leader>cc (查找调用本函数的函数)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>
+		" <Leader>cd (查找本函数调用的函数)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>
+		" <Leader>ce (查找egrep模式)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>
+		" <Leader>cf (查找文件)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>
+		" <Leader>cg (查找全局定义)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>
+		" <Leader>ci (查找包含本文件的文件)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>
+		" <Leader>cs (查找C符号)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>
+		" <Leader>ct (查找文本字符串)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>
+		" <Leader>cR (重新生成cscope数据库)
+		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>
+	augroup END
 endif
+

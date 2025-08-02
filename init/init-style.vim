@@ -3,7 +3,7 @@
 " init-style.vim - 显示样式设置
 "
 " Created by skywind on 2018/05/30
-" Last Modified: 2018/05/30 20:29:07
+" Last Modified: 2025/08/02 10:51:11
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -108,7 +108,7 @@ endif
 hi! SignColumn guibg=NONE ctermbg=NONE
 
 " 修改行号为浅灰色，默认主题的黄色行号很难看，换主题可以仿照修改
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE 
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE
 	\ gui=NONE guifg=DarkGrey guibg=NONE
 
 " 修正补全目录的色彩：默认太难看
@@ -122,7 +122,7 @@ hi! PmenuSel guibg=gray guifg=brown ctermbg=brown ctermfg=gray
 if has('terminal') && exists(':terminal') == 2
 	if exists('##TerminalOpen')
 		augroup VimUnixTerminalGroup
-			au! 
+			au!
 			au TerminalOpen * setlocal nonumber signcolumn=no
 		augroup END
 	endif
@@ -190,7 +190,7 @@ function! Vim_NeatBuffer(bufnr, fullname)
 		if l:name == ''
 			return '[No Name]'
 		else
-			if a:fullname 
+			if a:fullname
 				return fnamemodify(l:name, ':p')
 			else
 				let aname = fnamemodify(l:name, ':p')
@@ -209,7 +209,7 @@ function! Vim_NeatBuffer(bufnr, fullname)
 		if l:buftype == 'quickfix'
 			return '[Quickfix]'
 		elseif l:name != ''
-			if a:fullname 
+			if a:fullname
 				return '-'.fnamemodify(l:name, ':p')
 			else
 				return '-'.fnamemodify(l:name, ':t')

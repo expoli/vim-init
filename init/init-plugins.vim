@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/08/02 10:05:12
+" Last Modified: 2025/08/02 10:48:19
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -16,30 +16,30 @@ let plug_vim_path = expand('~/.vim/autoload/plug.vim')
 let plug_ready_path = expand('~/.vim/autoload/plug.vim.ready')
 
 if empty(glob(plug_vim_path))
-  let curl_cmd = 'curl -fLo ' . shellescape(plug_vim_path) . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  silent execute '!'.curl_cmd
-  if v:shell_error
-    " retry second time
-    silent execute '!'.curl_cmd
-    if v:shell_error
-      echoerr "Failed to download plug.vim"
-      finish
-    else
-      call mkdir(fnamemodify(plug_ready_path, ':h'), 'p')
-      call writefile([], plug_ready_path)
-    endif
-  else
-    call mkdir(fnamemodify(plug_ready_path, ':h'), 'p')
-    call writefile([], plug_ready_path)
-  endif
+	let curl_cmd = 'curl -fLo ' . shellescape(plug_vim_path) . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	silent execute '!'.curl_cmd
+	if v:shell_error
+		" retry second time
+		silent execute '!'.curl_cmd
+		if v:shell_error
+			echoerr "Failed to download plug.vim"
+			finish
+		else
+			call mkdir(fnamemodify(plug_ready_path, ':h'), 'p')
+			call writefile([], plug_ready_path)
+		endif
+	else
+		call mkdir(fnamemodify(plug_ready_path, ':h'), 'p')
+		call writefile([], plug_ready_path)
+	endif
 endif
 
 if !empty(glob(plug_ready_path))
-  autocmd VimEnter * ++once PlugInstall --sync | source $MYVIMRC | call DeletePlugReady()
+	autocmd VimEnter * ++once PlugInstall --sync | source $MYVIMRC | call DeletePlugReady()
 endif
 
 function! DeletePlugReady()
-  silent! call delete(expand('~/.vim/autoload/plug.vim.ready'))
+	silent! call delete(expand('~/.vim/autoload/plug.vim.ready'))
 endfunction
 
 "----------------------------------------------------------------------
@@ -224,7 +224,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 	Plug 'junegunn/fzf'
 
 	" 给不同语言提供字典补全，插入模式下 c-x c-k 触发
-    Plug 'skywind3000/vim-dict'
+	Plug 'skywind3000/vim-dict'
 
 	" 使用 :FlyGrep 命令进行实时 grep
 	Plug 'wsdjeg/FlyGrep.vim'
@@ -368,7 +368,7 @@ if index(g:bundle_group, 'filetypes') >= 0
 	" rust 语法增强
 	Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
-	" vim org-mode 
+	" vim org-mode
 	Plug 'jceb/vim-orgmode', { 'for': 'org' }
 endif
 
@@ -577,35 +577,35 @@ Plug 'tomasr/molokai'
 call plug#end()
 
 augroup LazyLoadPlugins
-    autocmd!
-    autocmd InsertLeave * call s:LoadLazyPlugins()
+	autocmd!
+	autocmd InsertLeave * call s:LoadLazyPlugins()
 augroup END
 
 function! s:LoadLazyPlugins()
-    if exists('g:lazy_plugins_loaded')
-        return
-    endif
-    let g:lazy_plugins_loaded = 1
+	if exists('g:lazy_plugins_loaded')
+		return
+	endif
+	let g:lazy_plugins_loaded = 1
 
 	call plug#load('vim-signature')
-    call plug#load('vim-easymotion')
-    call plug#load('vim-expand-region')
-    call plug#load('delimitMate')
-    call plug#load('vim-textobj-indent')
-    call plug#load('vim-textobj-syntax')
-    call plug#load('vim-textobj-function')
-    call plug#load('vim-textobj-parameter')
-    call plug#load('vim-textobj-python')
-    call plug#load('vim-textobj-uri')
-    call plug#load('echodoc.vim')
-    "call plug#load('vim-auto-popmenu')
-    call plug#load('vim-gutentags')
-    call plug#load('gutentags_plus')
+	call plug#load('vim-easymotion')
+	call plug#load('vim-expand-region')
+	call plug#load('delimitMate')
+	call plug#load('vim-textobj-indent')
+	call plug#load('vim-textobj-syntax')
+	call plug#load('vim-textobj-function')
+	call plug#load('vim-textobj-parameter')
+	call plug#load('vim-textobj-python')
+	call plug#load('vim-textobj-uri')
+	call plug#load('echodoc.vim')
+	"call plug#load('vim-auto-popmenu')
+	call plug#load('vim-gutentags')
+	call plug#load('gutentags_plus')
 	if has('python') || has('python3')
 		call plug#load('LeaderF')
 	endif
-    call plug#load('vim-signify')
-    "call plug#load('vim-fugitive')
+	call plug#load('vim-signify')
+	"call plug#load('vim-fugitive')
 endfunction
 
 
@@ -693,3 +693,4 @@ let g:ycm_filetype_whitelist = {
 			\ "zimbu":1,
 			\ "ps1":1,
 			\ }
+

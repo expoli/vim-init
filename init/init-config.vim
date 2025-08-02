@@ -3,7 +3,7 @@
 " init-config.vim - 正常模式下的配置，在 init-basic.vim 后调用
 "
 " Created by skywind on 2018/05/30
-" Last Modified: 2018/05/30 19:20:46
+" Last Modified: 2025/08/02 10:50:23
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -23,39 +23,39 @@ endif
 " 记得设置 ttimeout （见 init-basic.vim） 和 ttimeoutlen （上面）
 "----------------------------------------------------------------------
 if has('nvim') == 0 && has('gui_running') == 0
-    " 先强制绑定正确的 Home/End 键码（基于你的终端测试结果）
-    " 对应 ^[[H
-    execute "set <Home>=\e[H"
-    " 对应 ^[[F
-    execute "set <End>=\e[F"
+	" 先强制绑定正确的 Home/End 键码（基于你的终端测试结果）
+	" 对应 ^[[H
+	execute "set <Home>=\e[H"
+	" 对应 ^[[F
+	execute "set <End>=\e[F"
 
-    " 定义安全的 Alt 键绑定函数
-    function! s:metacode(key)
-        " 严格排除所有功能键相关的字符（包括转义序列组成部分）
-        if a:key =~# '^[\[\]A-Z]$'  " 排除 [ ] 和所有大写字母（功能键常见字符）
-            return
-        endif
-        " 特殊排除会导致冲突的字符
-        if a:key =~# '^H$\|^F$'     " 单独排除 H/F（Home/End 的组成部分）
-            return
-        endif
-        exec "set <M-".a:key.">=\e".a:key
-    endfunction
+	" 定义安全的 Alt 键绑定函数
+	function! s:metacode(key)
+		" 严格排除所有功能键相关的字符（包括转义序列组成部分）
+		if a:key =~# '^[\[\]A-Z]$'  " 排除 [ ] 和所有大写字母（功能键常见字符）
+			return
+		endif
+		" 特殊排除会导致冲突的字符
+		if a:key =~# '^H$\|^F$'     " 单独排除 H/F（Home/End 的组成部分）
+			return
+		endif
+		exec "set <M-".a:key.">=\e".a:key
+	endfunction
 
-    " 仅绑定安全的字符集
-    for i in range(10)
-        call s:metacode(nr2char(char2nr('0') + i))
-    endfor
-    for i in range(26)
-        " 只绑定小写字母（避免大写字母与功能键冲突）
-        call s:metacode(nr2char(char2nr('a') + i))
-    endfor
-    for c in [',', '.', '/', ';', '{', '}']
-        call s:metacode(c)
-    endfor
-    for c in ['?', ':', '-', '_', '+', '=', "'"]
-        call s:metacode(c)
-    endfor
+	" 仅绑定安全的字符集
+	for i in range(10)
+		call s:metacode(nr2char(char2nr('0') + i))
+	endfor
+	for i in range(26)
+		" 只绑定小写字母（避免大写字母与功能键冲突）
+		call s:metacode(nr2char(char2nr('a') + i))
+	endfor
+	for c in [',', '.', '/', ';', '{', '}']
+		call s:metacode(c)
+	endfor
+	for c in ['?', ':', '-', '_', '+', '=', "'"]
+		call s:metacode(c)
+	endfor
 endif
 
 
@@ -155,8 +155,8 @@ autocmd BufReadPost *
 
 " 定义一个 DiffOrig 命令用于查看文件改动
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-          \ | wincmd p | diffthis
+	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		\ | wincmd p | diffthis
 endif
 
 
