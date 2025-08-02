@@ -586,7 +586,7 @@ function! s:LoadLazyPlugins()
 		return
 	endif
 	let g:lazy_plugins_loaded = 1
-
+	let view = winsaveview()
 	call plug#load('vim-signature')
 	call plug#load('vim-easymotion')
 	call plug#load('vim-expand-region')
@@ -606,6 +606,7 @@ function! s:LoadLazyPlugins()
 	endif
 	call plug#load('vim-signify')
 	"call plug#load('vim-fugitive')
+	call winrestview(view)
 endfunction
 
 
