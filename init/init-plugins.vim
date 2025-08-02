@@ -187,7 +187,7 @@ if index(g:bundle_group, 'basic') >= 0
 			\]
 
 	" 使用 <space>ha 清除 errormarker 标注的错误
-	noremap <silent><space>ha :RemoveErrorMarkers<cr>
+	" noremap <silent><space>ha :RemoveErrorMarkers<cr>
 
 	" signify 调优
 	" 禁用默认启用（按需启用）
