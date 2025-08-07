@@ -402,10 +402,10 @@ nmap <Leader>e :e<Space>
 nmap <Leader>z <C-Z>
 
 " 快速切换C H源文件
-augroup CppKeymaps
-	autocmd!
-	autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
-augroup END
+"augroup CppKeymaps
+"	autocmd!
+"	autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
+"augroup END
 
 "----------------------------------------------------------------------
 " Cscope 快捷键

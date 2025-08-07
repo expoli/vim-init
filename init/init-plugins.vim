@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/08/02 10:48:19
+" Last Modified: 2025/08/06 14:46:58
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -89,7 +89,7 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'ap/vim-buftabline'
 
 " swtich between source files and header files quickly.
-Plug 'vim-scripts/a.vim'
+" Plug 'vim-scripts/a.vim'
 
 "----------------------------------------------------------------------
 " Dirvish 设置：自动排序并隐藏文件，同时定位到相关文件
