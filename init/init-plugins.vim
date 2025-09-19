@@ -3,7 +3,7 @@
 " init-plugins.vim - 初始化流程中的插件安装与配置部分
 "
 " Created by skywind on 2018/05/31
-" Last Modified: 2025/08/06 14:46:58
+" Last Modified: 2025/09/19 11:38:48
 "
 "======================================================================
 " vim: set ts=4 sw=4 tw=78 noet :
@@ -224,7 +224,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 	Plug 'junegunn/fzf'
 
 	" 给不同语言提供字典补全，插入模式下 c-x c-k 触发
-	Plug 'skywind3000/vim-dict'
+	Plug 'expoli/vim-dict'
 
 	" 使用 :FlyGrep 命令进行实时 grep
 	Plug 'wsdjeg/FlyGrep.vim'
@@ -338,7 +338,7 @@ if index(g:bundle_group, 'textobj') >= 0
 	Plug 'sgur/vim-textobj-parameter', { 'on': [] }
 
 	" 提供 python 相关文本对象，if/af 表示函数，ic/ac 表示类
-	Plug 'bps/vim-textobj-python', { 'on': [], 'for': 'python'}
+	"Plug 'bps/vim-textobj-python', { 'on': [], 'for': 'python'}
 
 	" 提供 uri/url 的文本对象，iu/au 表示
 	Plug 'jceb/vim-textobj-uri', { 'on': [] }
@@ -595,7 +595,7 @@ function! s:LoadLazyPlugins()
 	call plug#load('vim-textobj-syntax')
 	call plug#load('vim-textobj-function')
 	call plug#load('vim-textobj-parameter')
-	call plug#load('vim-textobj-python')
+	"call plug#load('vim-textobj-python')
 	call plug#load('vim-textobj-uri')
 	call plug#load('echodoc.vim')
 	"call plug#load('vim-auto-popmenu')
