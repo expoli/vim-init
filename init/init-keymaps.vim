@@ -251,7 +251,8 @@ augroup ProgrammingKeymaps
 	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>"
 
 	" F9: 编译 C/C++ 单个文件
-	autocmd FileType c,cpp nnoremap <buffer><silent> <F9> :AsyncRun gcc -Wall -O2 \"$(VIM_FILEPATH)\" -o \"$(VIM_FILEDIR)/$(VIM_FILENOEXT)\" <cr>"
+	autocmd FileType c,cpp nnoremap <buffer><silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>"
+    autocmd FileType cpp nnoremap <buffer><silent> <F9> :AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>"
 
 	" F4: 更新 CMake 项目
 	autocmd FileType c,cpp,cmake nnoremap <buffer><silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>"
