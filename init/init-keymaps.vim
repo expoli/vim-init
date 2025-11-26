@@ -17,7 +17,8 @@
 "----------------------------------------------------------------------
 " 自定义快捷键的前缀，即<Leader>
 "----------------------------------------------------------------------
-let mapleader=" "
+let mapleader = ' '  " 全局 Leader 键设为空格
+let maplocalleader = ','  " 局部 Leader 键（备用，不冲突）
 
 "----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
@@ -239,28 +240,26 @@ let s:grep_ft = 'c,cpp,python,javascript,vim'
 augroup ProgrammingKeymaps
 	autocmd!
 
-	" F10: 打开/关闭 Quickfix 窗口
-	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F10> :call asyncrun#quickfix_toggle(6)<cr>"
+	" F4: 编译 C/C++ 单个文件
+	autocmd FileType c nnoremap <buffer><silent> <F4> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>"
+    autocmd FileType cpp nnoremap <buffer><silent> <F4> :AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>"
 	" F5: 运行当前文件
 	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F5> :call ExecuteFile()<cr>"
+	" F6: 更新 CMake 项目
+	autocmd FileType c,cpp,cmake nnoremap <buffer><silent> <F6> :AsyncRun -cwd=<root> cmake . <cr>"
 	" F7: 编译项目 (make)
 	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F7> :AsyncRun -cwd=<root> make <cr>"
 	" F8: 运行项目 (make run)
-	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>"
-	" F6: 测试项目 (make test)
-	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>"
-
-	" F9: 编译 C/C++ 单个文件
-	autocmd FileType c,cpp nnoremap <buffer><silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>"
-    autocmd FileType cpp nnoremap <buffer><silent> <F9> :AsyncRun g++ -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>"
-
-	" F4: 更新 CMake 项目
-	autocmd FileType c,cpp,cmake nnoremap <buffer><silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>"
-
 	" Windows 下的特殊设置: F8 在新窗口中运行
 	if has('win32') || has('win64')
 		exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>"
+	else
+	    exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>"
 	endif
+	" F9: 测试项目 (make test)
+	"exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F9> :AsyncRun -cwd=<root> -raw make test <cr>"
+	" F10: 打开/关闭 Quickfix 窗口
+	exec "autocmd FileType " . s:exec_ft . " nnoremap <buffer><silent> <F10> :call asyncrun#quickfix_toggle(6)<cr>"
 
 	" F2: 在项目目录下 Grep 光标下的单词
 	if executable('rg')
@@ -408,6 +407,14 @@ nmap <Leader>z <C-Z>
 "	autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
 "augroup END
 
+if has("cscope")
+	set csprg=/usr/bin/cscope  " 设置 cscope 的路径
+	set cst                    " 启用 cscope 支持
+	" 加载 cscope 数据库（如果你在项目中已经生成了 cscope.out）
+	cs add /path/to/cscope.out
+endif
+
+
 "----------------------------------------------------------------------
 " Cscope 快捷键
 "----------------------------------------------------------------------
@@ -445,4 +452,3 @@ if executable('cscope')
 		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>
 	augroup END
 endif
-

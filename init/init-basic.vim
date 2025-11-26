@@ -21,7 +21,7 @@ set nocompatible
 set bs=eol,start,indent
 
 " 自动缩进
-set autoindent
+set autoindent smartindent
 
 " 打开 C/C++ 语言缩进优化
 set cindent
@@ -190,6 +190,3 @@ set wildignore+=*.ppt,*.pptx,*.docx,*.xlt,*.xls,*.xlsx,*.odt,*.wps
 set wildignore+=*.msi,*.crx,*.deb,*.vfd,*.apk,*.ipa,*.bin,*.msu
 set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
 set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
-
-
-

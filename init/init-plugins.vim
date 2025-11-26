@@ -551,7 +551,7 @@ endif
 Plug 'skywind3000/vim-auto-popmenu'
 
 " enable this plugin for filetypes, '*' for all files.
-let g:apc_enable_ft = {'c': 1, 'c++': 1, 'shell': 1, 'php': 1, 'rust': 1, 'python': 1, 'sh': 1, 'bash': 1}
+let g:apc_enable_ft = {'c': 1, 'cpp': 1, 'shell': 1, 'php': 1, 'rust': 1, 'python': 1, 'sh': 1, 'bash': 1}
 
 " source for dictionary, current or other loaded buffers, see ':help cpt'
 set cpt=.,k,w,b
@@ -694,4 +694,3 @@ let g:ycm_filetype_whitelist = {
 			\ "zimbu":1,
 			\ "ps1":1,
 			\ }
-
