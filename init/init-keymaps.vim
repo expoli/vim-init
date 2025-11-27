@@ -431,48 +431,79 @@ nmap <Leader>z <C-Z>
 "	autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>a :A<CR>
 "augroup END
 
+"----------------------------------------------------------------------
+" Cscope 快捷键（优化：自动加载当前目录/父目录 cscope.out，生成后自动加载）
+"----------------------------------------------------------------------
 if has("cscope")
-	set csprg=/usr/bin/cscope  " 设置 cscope 的路径
-	set cst                    " 启用 cscope 支持
-	" 加载 cscope 数据库（如果你在项目中已经生成了 cscope.out）
-	cs add /path/to/cscope.out
+    set csprg=/usr/bin/cscope  " 设置 cscope 可执行文件路径
+    set cst                    " 启用 cscope 支持（结合 ctags 使用更流畅）
+    set cscopequickfix=s-,c-,d-,i-,t-,e-,f-,g-  " 可选：将结果输出到 quickfix 窗口（更易浏览）
 endif
 
-
-"----------------------------------------------------------------------
-" Cscope 快捷键
-"----------------------------------------------------------------------
 if executable('cscope')
-	function! CscopeFind(type)
-		if !filereadable('cscope.out')
-			echo "cscope.out not found. Generating new database..."
-			!cscope -b -q -k -R
-			echo "Cscope database generated."
-		endif
-		execute 'cs find ' . a:type . ' ' . expand('<cword>')
-	endfunction
+    " 函数：查找当前目录及父目录的 cscope.out，找到后加载（避免重复加载）
+    function! LoadCscopeDb()
+        " Use redir to capture the output of 'cscope show'
+        redir => s:cscope_info
+        silent cscope show
+        redir END
 
-	augroup CscopeKeymaps
-		autocmd!
-		" <Leader>ca (查找符号的赋值)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>
-		" <Leader>cc (查找调用本函数的函数)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>
-		" <Leader>cd (查找本函数调用的函数)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>
-		" <Leader>ce (查找egrep模式)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>
-		" <Leader>cf (查找文件)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>
-		" <Leader>cg (查找全局定义)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>
-		" <Leader>ci (查找包含本文件的文件)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>
-		" <Leader>cs (查找C符号)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>
-		" <Leader>ct (查找文本字符串)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>
-		" <Leader>cR (重新生成cscope数据库)
-		autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>
-	augroup END
+        " If 'no cscope connections' is not in the output, a connection exists.
+        if s:cscope_info !~# 'no cscope connections'
+            return
+        endif
+
+        let current_dir = getcwd()
+        let max_depth = 5
+        let depth = 0
+
+        while depth <= max_depth
+            let cscope_file = current_dir . '/cscope.out'
+            if filereadable(cscope_file)
+                execute 'cs add ' . cscope_file . ' ' . current_dir
+                echo 'Cscope loaded: ' . cscope_file
+                return
+            endif
+            let current_dir = current_dir . '/..'
+            let depth = depth + 1
+        endwhile
+    endfunction
+
+    " 函数：查找符号（优化：生成数据库后自动加载）
+    function! CscopeFind(type)
+        " 如果没有 cscope.out，生成数据库
+        if !filereadable('cscope.out')
+            echo "cscope.out not found. Generating new database..."
+            !cscope -b -q -k -R  " -b：仅生成数据库；-q：生成快速索引；-k：不查找系统头文件；-R：递归遍历子目录
+            echo "Cscope database generated."
+            call LoadCscopeDb()  " 生成后自动加载数据库
+        endif
+        " 执行查找（expand('<cword>') 获取当前光标下的单词）
+        execute 'cs find ' . a:type . ' ' . expand('<cword>')
+    endfunction
+
+    " 自动命令组：初始化 + 快捷键绑定
+    augroup CscopeConfig
+        " 清空之前的自动命令，避免重复
+        "autocmd!
+
+        " 1. Vim 启动时，自动加载 cscope.out（当前目录/父目录）
+        autocmd VimEnter * call LoadCscopeDb()
+
+        " 2. 切换工作目录时，重新加载 cscope.out（可选，应对 :cd 命令切换目录的场景）
+        autocmd DirChanged * call LoadCscopeDb()
+
+        " 3. 仅在 C/C++ 文件中绑定快捷键（<buffer> 表示仅当前缓冲区生效）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>  " 查找符号的赋值
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>  " 查找调用本函数的函数
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>  " 查找本函数调用的函数
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>  " 查找 egrep 模式（支持正则）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>  " 查找文件（输入文件名）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>  " 查找全局定义
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>  " 查找包含本文件的文件
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>  " 查找 C 符号（精确匹配）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>  " 查找文本字符串
+        " 重新生成数据库（生成后自动加载）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>:call LoadCscopeDb()<cr>
+    augroup END
 endif
