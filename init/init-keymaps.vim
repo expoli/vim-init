@@ -264,7 +264,7 @@ augroup ProgrammingKeymaps
 	" F2: 在项目目录下 Grep 光标下的单词
 	if executable('rg')
 		exec "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> rg -n --no-heading " .
-			\ " --color never -g *.h -g *.c* -g *.py -g *.js -g *.vim " .
+			\ " --color never -g '*.h' -g '*.c*' -g '*.py' -g '*.js' -g '*.vim' " .
 			\ " <C-R><C-W> \"<root>\" <cr>"
 	elseif has('win32') || has('win64')
 		exec "autocmd FileType " . s:grep_ft . " nnoremap <buffer><silent><F2> :AsyncRun! -cwd=<root> findstr /n /s /C:\"<C-R><C-W>\" " .
