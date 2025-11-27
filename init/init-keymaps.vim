@@ -393,6 +393,30 @@ nmap <Leader>u <C-U>
 nmap <Leader>d <C-D>
 
 "----------------------------------------------------------------------
+" 行号操作 (Eagerly Loaded)
+"----------------------------------------------------------------------
+" 定义联动函数：根据行号状态同步 signcolumn
+function! UpdateSignColumn()
+  " 判断行号是否开启（只要绝对行号或相对行号有一个开启，就认为行号是开启状态）
+  if &number || &relativenumber
+    " 行号开启时，开启 signcolumn（设为 auto：有标记显示列，无标记时列宽最小，避免排版跳动）
+    set signcolumn=auto
+  else
+    " 行号关闭时，彻底关闭 signcolumn（消除空白列）
+    set signcolumn=no
+  endif
+endfunction
+
+" 1. 监听行号选项变化：当 number 或 relativenumber 改变时，自动调用联动函数
+autocmd OptionSet number,relativenumber call UpdateSignColumn()
+
+" 2. Vim 启动时，初始化 signcolumn（确保启动时状态一致）
+autocmd VimEnter * call UpdateSignColumn()
+
+" 可选：添加一键切换行号的命令（方便快速测试，可自定义快捷键）
+command! ToggleNumber :set number! relativenumber!
+
+"----------------------------------------------------------------------
 " 文件快速键操作 (Eagerly Loaded)
 "----------------------------------------------------------------------
 " 打开文件
