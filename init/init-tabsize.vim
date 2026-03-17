@@ -14,12 +14,6 @@ set listchars=tab:→\ ,trail:·
 set list
 
 "----------------------------------------------------------------------
-" Leader键设为空格（必须在映射前）
-"----------------------------------------------------------------------
-let mapleader = ' '
-let maplocalleader = ','
-
-"----------------------------------------------------------------------
 " 切换空格/Tab模式（空格+te）
 "----------------------------------------------------------------------
 nnoremap <silent> <Leader>te :set et!<CR>:echom "✅ ExpandTab: " . (&et ? "ON（空格）" : "OFF（Tab）")<CR>
@@ -32,16 +26,14 @@ nnoremap <silent> <Leader>ts :call SetTabSize()<CR>
 inoremap <silent> <C-s> <Esc>:call SetTabSize()<CR>a
 
 function! SetTabSize()
-    let size = input("📏 Set tab size (2/4/8): ")
-    if size =~ '^[248]$'
-        let size = str2nr(size)
-        setlocal ts=size sw=size sts=size
-        echohl SuccessMsg
-        echom "✅ Tab size set to " . size
-        echohl None
+    let l:size = input("Set tab size (2/4/8): ")
+    if l:size =~ '^[248]$'
+        let l:size = str2nr(l:size)
+        execute 'setlocal ts=' . l:size . ' sw=' . l:size . ' sts=' . l:size
+        echom "Tab size set to " . l:size
     else
         echohl ErrorMsg
-        echom "❌ Invalid size! Only 2/4/8 allowed."
+        echom "Invalid size! Only 2/4/8 allowed."
         echohl None
     endif
 endfunction

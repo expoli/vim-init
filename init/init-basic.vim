@@ -49,21 +49,28 @@ set autoread
 
 " 关闭自动备份
 set nobackup
+set nowritebackup
+
+" 禁用交换文件
+set noswapfile
+
+" 禁用 undo 文件（如需启用持久撤销，取消下面注释）
+" set noundofile
 
 " default updatetime 4000ms is not good for async update
 set updatetime=100
 
 "----------------------------------------------------------------------
-" vim 7.3新特性：持久撤销 配置
+" vim 7.3新特性：持久撤销 配置（已禁用，如需启用取消注释）
 " 重启后撤销历史可用 persistent undo
 "----------------------------------------------------------------------
-set undofile
+" set undofile
 
 " 持久化文件夹（必须手工预先创建，vim不会自动帮你创建）
-set undodir=$VIMFILES/\_undodir
+" set undodir=$VIMFILES/\_undodir
 
 " 最大可撤销次数
-set undolevels=1000
+" set undolevels=1000
 
 "----------------------------------------------------------------------
 " 搜索设置

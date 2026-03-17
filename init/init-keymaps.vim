@@ -15,12 +15,6 @@
 " vim: set ts=4 sw=4 tw=78 noet :
 
 "----------------------------------------------------------------------
-" 自定义快捷键的前缀，即<Leader>
-"----------------------------------------------------------------------
-let mapleader = ' '  " 全局 Leader 键设为空格
-let maplocalleader = ','  " 局部 Leader 键（备用，不冲突）
-
-"----------------------------------------------------------------------
 " INSERT 模式下使用 EMACS 键位
 "----------------------------------------------------------------------
 "inoremap <c-a> <home>
@@ -333,64 +327,35 @@ augroup MarkdownKeymaps
 	autocmd FileType markdown nnoremap <buffer><silent> pc :call SetPic()<CR>
 	autocmd FileType markdown nnoremap <buffer><silent> pi :call SetPic1()<CR>
 	autocmd FileType markdown nnoremap <buffer><silent> vi :call SetVideo()<CR>
-	autocmd FileType markdown nnoremap <buffer><silent> cl :call SetCollor()<CR>
+	autocmd FileType markdown nnoremap <buffer><silent> cl :call SetColor()<CR>
 augroup END
 
-func SetTime()
+function! SetTime()
 	call append(line("."), "# ".strftime('%a %d %b %Y'))
-endfunc
+endfunction
 
-func SetTable()
-	call append(line(".")+0, "| | | ")
-	call append(line(".")+1, "|---|---|")
-	call append(line(".")+2, "| | |")
-endfunc
+function! SetTable()
+	let l:lnum = line(".")
+	call append(l:lnum, "| | | ")
+	call append(l:lnum + 1, "|---|---|")
+	call append(l:lnum + 2, "| | |")
+endfunction
 
-func SetPic()
-	call append(line("."), "<img src='' width=600 alt=''> </img></div>")
-endfunc
+function! SetPic()
+	call append(line("."), "<img src='' width=600 alt=''> </img>")
+endfunction
 
-func SetPic1()
+function! SetPic1()
 	call append(line("."), "![]()")
-endfunc
+endfunction
 
-func SetVideo()
-	call append(line("."), "<video src='1.mp4' controls='controls' width='640' height='320' autoplay='autoplay'> Your browser does not support the video tag.</div>")
-endfunc
+function! SetVideo()
+	call append(line("."), "<video src='1.mp4' controls='controls' width='640' height='320'>Your browser does not support the video tag.</video>")
+endfunction
 
-func SetCollor()
-	call append(line("."), "<span  style='color: #f16707;'> </span>")
-endfunc
-
-"----------------------------------------------------------------------
-" 快捷键窗口操作 (Eagerly Loaded)
-"----------------------------------------------------------------------
-" 设置快捷键gs遍历各分割窗口。快捷键速记法：goto the next spilt window
-nnoremap <Leader>gs <C-W><C-W>
-
-" 向左
-nnoremap <Leader>h <C-W><C-H>
-
-" 向右
-noremap <Leader>l <C-W><C-L>
-
-" 向上
-nnoremap <Leader>k <C-W><C-K>
-
-" 向下
-nnoremap <Leader>j <C-W><C-J>
-
-" 水平分隔
-nmap <Leader>s :Sex<CR>
-
-" 竖直分隔
-nmap <Leader>v :Vex<CR>
-
-" 向下翻半屏
-nmap <Leader>u <C-U>
-
-" 向上翻半屏
-nmap <Leader>d <C-D>
+function! SetColor()
+	call append(line("."), "<span style='color: #f16707;'> </span>")
+endfunction
 
 "----------------------------------------------------------------------
 " 行号操作 (Eagerly Loaded)
@@ -438,72 +403,225 @@ if has("cscope")
     set csprg=/usr/bin/cscope  " 设置 cscope 可执行文件路径
     set cst                    " 启用 cscope 支持（结合 ctags 使用更流畅）
     set cscopequickfix=s-,c-,d-,i-,t-,e-,f-,g-  " 可选：将结果输出到 quickfix 窗口（更易浏览）
+    " set csto=0                " 0: 先查 cscope，再查 ctags；1: 先查 ctags
 endif
 
 if executable('cscope')
-    " 函数：查找当前目录及父目录的 cscope.out，找到后加载（避免重复加载）
-    function! LoadCscopeDb()
-        " Use redir to capture the output of 'cscope show'
-        redir => s:cscope_info
-        silent cscope show
-        redir END
-
-        " If 'no cscope connections' is not in the output, a connection exists.
-        if s:cscope_info !~# 'no cscope connections'
-            return
-        endif
-
-        let current_dir = getcwd()
-        let max_depth = 5
+    "----------------------------------------------------------------------
+    " 函数：向上查找 cscope.out 文件路径（返回文件路径和 pre-path）
+    "----------------------------------------------------------------------
+    function! FindCscopeFile()
+        let current_dir = fnamemodify(expand('%:p'), ':h')
+        let max_depth = 10
         let depth = 0
 
         while depth <= max_depth
             let cscope_file = current_dir . '/cscope.out'
             if filereadable(cscope_file)
-                execute 'cs add ' . cscope_file . ' ' . current_dir
-                echo 'Cscope loaded: ' . cscope_file
-                return
+                return [cscope_file, current_dir]
             endif
-            let current_dir = current_dir . '/..'
+            let parent_dir = fnamemodify(current_dir, ':h')
+            if parent_dir == current_dir
+                break
+            endif
+            let current_dir = parent_dir
             let depth = depth + 1
         endwhile
+        return ['', '']
     endfunction
 
-    " 函数：查找符号（优化：生成数据库后自动加载）
-    function! CscopeFind(type)
-        " 如果没有 cscope.out，生成数据库
-        if !filereadable('cscope.out')
-            echo "cscope.out not found. Generating new database..."
-            !cscope -b -q -k -R  " -b：仅生成数据库；-q：生成快速索引；-k：不查找系统头文件；-R：递归遍历子目录
-            echo "Cscope database generated."
-            call LoadCscopeDb()  " 生成后自动加载数据库
+    "----------------------------------------------------------------------
+    " 函数：检查 cscope 是否已连接
+    "----------------------------------------------------------------------
+    function! IsCscopeConnected()
+        redir => l:cscope_info
+        silent cscope show
+        redir END
+        return l:cscope_info !~# 'no cscope connections'
+    endfunction
+
+    "----------------------------------------------------------------------
+    " 函数：查找当前目录及父目录的 cscope.out，找到后加载（避免重复加载）
+    "----------------------------------------------------------------------
+    function! LoadCscopeDb()
+        if IsCscopeConnected()
+            return 1
         endif
-        " 执行查找（expand('<cword>') 获取当前光标下的单词）
-        execute 'cs find ' . a:type . ' ' . expand('<cword>')
+
+        let [cscope_file, cscope_dir] = FindCscopeFile()
+        if cscope_file != ''
+            execute 'cs add ' . fnameescape(cscope_file) . ' ' . fnameescape(cscope_dir)
+            echo 'Cscope loaded: ' . cscope_file
+            return 1
+        endif
+        return 0
     endfunction
 
+    "----------------------------------------------------------------------
+    " 函数：查找符号（优化：先尝试加载，再查找，支持回退到 ctags）
+    "----------------------------------------------------------------------
+    function! CscopeFind(type, ...)
+        let symbol = a:0 >= 1 ? a:1 : expand('<cword>')
+        let cscope_found = 0
+
+        " 尝试加载 cscope 数据库
+        if !IsCscopeConnected()
+            call LoadCscopeDb()
+        endif
+
+        " 如果 cscope 已连接，尝试查找
+        if IsCscopeConnected()
+            try
+                execute 'cs find ' . a:type . ' ' . symbol
+                let cscope_found = 1
+            catch /^Vim(cscope):E567:/
+                " cscope 没找到，记录下来
+                let cscope_found = 0
+            catch
+                " 其他错误
+                let cscope_found = 0
+            endtry
+        endif
+
+        " 如果 cscope 没找到，尝试回退到 ctags
+        if !cscope_found
+            " 根据查找类型决定是否可以回退到 ctags
+            if a:type ==# 'g' || a:type ==# 's'
+                " 'g': 全局定义, 's': C符号 -> 可以回退到 tags
+                try
+                    execute 'tag ' . symbol
+                    echohl None
+                    return
+                catch /^Vim\%((\a\+)\)\=:E426:/
+                    " tags 也没找到
+                    echohl WarningMsg
+                    echo "Not found in cscope or ctags: " . symbol
+                    echohl None
+                endtry
+            elseif a:type ==# 't'
+                " 't': 文本字符串 -> 可以回退 to vimgrep
+                echohl WarningMsg
+                echo "Not found in cscope: " . symbol . ". Try :vimgrep for text search."
+                echohl None
+            else
+                " 其他类型（c:调用者, d:被调用, i:包含, f:文件, a:赋值, e:egrep）
+                " ctags 不支持这些查询
+                echohl WarningMsg
+                echo "Not found in cscope: " . symbol
+                echohl None
+            endif
+        endif
+    endfunction
+
+    "----------------------------------------------------------------------
+    " 函数：Ctrl+] 增强版 - 自动加载 cscope 后跳转定义，回退到 ctags
+    "----------------------------------------------------------------------
+    function! CscopeJumpToDefinition()
+        let symbol = expand('<cword>')
+        let jumped = 0
+
+        " 尝试加载 cscope 数据库
+        if !IsCscopeConnected()
+            call LoadCscopeDb()
+        endif
+
+        " 如果 cscope 已连接，使用 cscope 查找定义
+        if IsCscopeConnected()
+            try
+                " 使用 'g' 查找全局定义
+                execute 'cs find g ' . symbol
+                let jumped = 1
+            catch /^Vim(cscope):E567:/
+                " cscope 没找到，继续尝试 tags
+                let jumped = 0
+            catch
+                " 其他错误，继续尝试 tags
+                let jumped = 0
+            endtry
+        endif
+
+        " Fallback: 使用 ctags 跳转
+        if !jumped
+            try
+                execute 'tag ' . symbol
+            catch /^Vim\%((\a\+)\)\=:E426:/
+                " tags 也没找到
+                echohl WarningMsg
+                echo "Not found: " . symbol . " (tried cscope and ctags)"
+                echohl None
+            endtry
+        endif
+    endfunction
+
+    "----------------------------------------------------------------------
     " 自动命令组：初始化 + 快捷键绑定
+    "----------------------------------------------------------------------
     augroup CscopeConfig
-        " 清空之前的自动命令，避免重复
-        "autocmd!
+        autocmd!
 
         " 1. Vim 启动时，自动加载 cscope.out（当前目录/父目录）
         autocmd VimEnter * call LoadCscopeDb()
 
-        " 2. 切换工作目录时，重新加载 cscope.out（可选，应对 :cd 命令切换目录的场景）
+        " 2. 打开 C/C++ 文件时，自动加载 cscope.out
+        autocmd FileType c,cpp call LoadCscopeDb()
+
+        " 3. 切换工作目录时，重新加载 cscope.out
         autocmd DirChanged * call LoadCscopeDb()
 
-        " 3. 仅在 C/C++ 文件中绑定快捷键（<buffer> 表示仅当前缓冲区生效）
+        " 4. C/C++ 文件快捷键绑定
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>  " 查找符号的赋值
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>  " 查找调用本函数的函数
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>  " 查找本函数调用的函数
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>  " 查找 egrep 模式（支持正则）
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>  " 查找文件（输入文件名）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ce :call CscopeFind('e')<cr>  " 查找 egrep 模式
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cf :call CscopeFind('f')<cr>  " 查找文件
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cg :call CscopeFind('g')<cr>  " 查找全局定义
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ci :call CscopeFind('i')<cr>  " 查找包含本文件的文件
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>  " 查找 C 符号（精确匹配）
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cs :call CscopeFind('s')<cr>  " 查找 C 符号
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>  " 查找文本字符串
-        " 重新生成数据库（生成后自动加载）
-        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :!cscope -b -q -k -R<cr>:call LoadCscopeDb()<cr>
+        autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :call RegenerateCscopeDb()<cr>
+
+        " 5. Ctrl+] 和 Ctrl+\ 快捷键已在全局定义，此处无需重复
+
     augroup END
+
+    "----------------------------------------------------------------------
+    " 函数：重新生成 cscope 数据库
+    "----------------------------------------------------------------------
+    function! RegenerateCscopeDb()
+        let project_root = finddir('.git/..', expand('%:p:h') . ';')
+        if project_root == ''
+            let project_root = getcwd()
+        endif
+
+        let choice = confirm("Regenerate cscope database in: " . project_root . "?", "&Yes\n&No", 2)
+        if choice == 1
+            execute 'cd ' . fnameescape(project_root)
+
+            " 先断开现有连接
+            if IsCscopeConnected()
+                cscope kill -1
+            endif
+
+            !cscope -b -q -k -R
+            call LoadCscopeDb()
+            echo "Cscope database regenerated."
+        endif
+    endfunction
+
+    "----------------------------------------------------------------------
+    " 全局快捷键（所有文件类型可用）
+    "----------------------------------------------------------------------
+    " Ctrl+] 在所有文件类型中也能自动加载 cscope
+    nnoremap <silent> <C-]> :call CscopeJumpToDefinition()<cr>
+    nnoremap <silent> g<C-]> :call CscopeJumpToDefinition()<cr>
+
+    " Ctrl+\ 快捷方式（全局）
+    nnoremap <silent> <C-\>s :call CscopeFind('s')<cr>
+    nnoremap <silent> <C-\>g :call CscopeFind('g')<cr>
+    nnoremap <silent> <C-\>c :call CscopeFind('c')<cr>
+    nnoremap <silent> <C-\>t :call CscopeFind('t')<cr>
+    nnoremap <silent> <C-\>e :call CscopeFind('e')<cr>
+    nnoremap <silent> <C-\>f :call CscopeFind('f')<cr>
+    nnoremap <silent> <C-\>i :call CscopeFind('i')<cr>
+    nnoremap <silent> <C-\>d :call CscopeFind('d')<cr>
 endif
