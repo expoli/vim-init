@@ -554,7 +554,7 @@ endif
 "----------------------------------------------------------------------
 " vim-auto-popmenu（延迟加载）
 "----------------------------------------------------------------------
-Plug 'skywind3000/vim-auto-popmenu', { 'on': [] }
+Plug 'skywind3000/vim-auto-popmenu'
 
 " enable this plugin for filetypes, '*' for all files.
 let g:apc_enable_ft = {'c': 1, 'cpp': 1, 'shell': 1, 'php': 1, 'rust': 1, 'python': 1, 'sh': 1, 'bash': 1}
