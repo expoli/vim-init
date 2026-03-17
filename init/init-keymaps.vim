@@ -148,9 +148,11 @@ endfunc
 
 " 右移 tab
 function! Tab_MoveRight()
-	let l:tabnr = tabpagenr() + 1
-	if l:tabnr <= tabpagenr('$')
-		exec 'tabmove '.l:tabnr
+	let l:tabnr = tabpagenr()
+	let l:total = tabpagenr('$')
+	" 如果不是最后一个 tab，则右移
+	if l:tabnr < l:total
+		exec 'tabmove ' . (l:tabnr + 1)
 	endif
 endfunc
 
@@ -520,25 +522,22 @@ if executable('cscope')
         let symbol = expand('<cword>')
         let jumped = 0
 
-        " 尝试加载 cscope 数据库
+        " 尝试加载 cscope 数据库（只检查一次）
         if !IsCscopeConnected()
             call LoadCscopeDb()
         endif
 
-        " 如果 cscope 已连接，使用 cscope 查找定义
-        if IsCscopeConnected()
-            try
-                " 使用 'g' 查找全局定义
-                execute 'cs find g ' . symbol
-                let jumped = 1
-            catch /^Vim(cscope):E567:/
-                " cscope 没找到，继续尝试 tags
-                let jumped = 0
-            catch
-                " 其他错误，继续尝试 tags
-                let jumped = 0
-            endtry
-        endif
+        " cscope 已连接则尝试查找（避免再次调用 IsCscopeConnected）
+        try
+            execute 'cs find g ' . symbol
+            let jumped = 1
+        catch /^Vim(cscope):E567:/
+            " cscope 没找到，继续尝试 tags
+            let jumped = 0
+        catch
+            " 其他错误，继续尝试 tags
+            let jumped = 0
+        endtry
 
         " Fallback: 使用 ctags 跳转
         if !jumped
@@ -559,16 +558,13 @@ if executable('cscope')
     augroup CscopeConfig
         autocmd!
 
-        " 1. Vim 启动时，自动加载 cscope.out（当前目录/父目录）
+        " Vim 启动时，自动加载 cscope.out
         autocmd VimEnter * call LoadCscopeDb()
 
-        " 2. 打开 C/C++ 文件时，自动加载 cscope.out
-        autocmd FileType c,cpp call LoadCscopeDb()
+        " 切换工作目录时，重新加载 cscope.out
+        autocmd DirChanged global call LoadCscopeDb()
 
-        " 3. 切换工作目录时，重新加载 cscope.out
-        autocmd DirChanged * call LoadCscopeDb()
-
-        " 4. C/C++ 文件快捷键绑定
+        " C/C++ 文件快捷键绑定
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ca :call CscopeFind('a')<cr>  " 查找符号的赋值
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cc :call CscopeFind('c')<cr>  " 查找调用本函数的函数
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cd :call CscopeFind('d')<cr>  " 查找本函数调用的函数
@@ -580,7 +576,7 @@ if executable('cscope')
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>ct :call CscopeFind('t')<cr>  " 查找文本字符串
         autocmd FileType c,cpp nnoremap <buffer><silent> <Leader>cR :call RegenerateCscopeDb()<cr>
 
-        " 5. Ctrl+] 和 Ctrl+\ 快捷键已在全局定义，此处无需重复
+        " Ctrl+] 和 Ctrl+\ 快捷键已在全局定义，此处无需重复
 
     augroup END
 

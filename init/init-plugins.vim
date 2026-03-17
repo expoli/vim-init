@@ -131,6 +131,8 @@ if index(g:bundle_group, 'basic') >= 0
 	Plug 'mhinz/vim-startify', { 'on': 'Startify' }
 
 	" 一次性安装一大堆 colorscheme
+	" 注意：此包较大，如追求极致启动速度可只保留需要的主题
+	" 或替换为单个主题插件如 Plug 'morhetz/gruvbox'
 	Plug 'flazz/vim-colorschemes'
 
 	" 支持库，给其他插件用的函数库
@@ -194,7 +196,7 @@ if index(g:bundle_group, 'basic') >= 0
 	let g:signify_priority = 20
 	" 限制特定VCS使用
 	let g:signify_skip = { 'vcs': { 'allow': ['git'] } }
-	let g:signify_vcs_list = ['git', 'svn']
+	let g:signify_vcs_list = ['git']
 	let g:signify_sign_add               = '+'
 	let g:signify_sign_delete            = '_'
 	let g:signify_sign_delete_first_line = '‾'
@@ -203,6 +205,11 @@ if index(g:bundle_group, 'basic') >= 0
 	let g:signify_number_highlight = 1
 	" 启用行高亮
 	"let g:signify_line_highlight = 1
+
+	" 性能优化：限制更新频率和事件
+	let g:signify_update_on_bufenter = 0    " 禁用 BufEnter 时更新
+	let g:signify_update_on_focusgained = 0 " 禁用 FocusGained 时更新
+	" 只在 BufWritePost 时更新，减少 CPU 占用
 
 	" git 仓库使用 histogram 算法进行 diff
 	let g:signify_vcs_cmds = {
@@ -545,9 +552,9 @@ if index(g:bundle_group, 'leaderf') >= 0
 endif
 
 "----------------------------------------------------------------------
-" vim-auto-popmenu
+" vim-auto-popmenu（延迟加载）
 "----------------------------------------------------------------------
-Plug 'skywind3000/vim-auto-popmenu'
+Plug 'skywind3000/vim-auto-popmenu', { 'on': [] }
 
 " enable this plugin for filetypes, '*' for all files.
 let g:apc_enable_ft = {'c': 1, 'cpp': 1, 'shell': 1, 'php': 1, 'rust': 1, 'python': 1, 'sh': 1, 'bash': 1}
@@ -597,8 +604,8 @@ function! s:LoadLazyPlugins()
 	"call plug#load('vim-textobj-python')
 	call plug#load('vim-textobj-uri')
 	call plug#load('echodoc.vim')
-	"call plug#load('vim-auto-popmenu')
-	call plug#load('vim-gutentags')
+	call plug#load('vim-auto-popmenu')
+	"call plug#load('vim-gutentags')
 	call plug#load('gutentags_plus')
 	if has('python') || has('python3')
 		call plug#load('LeaderF')

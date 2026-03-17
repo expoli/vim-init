@@ -58,7 +58,8 @@ set noswapfile
 " set noundofile
 
 " default updatetime 4000ms is not good for async update
-set updatetime=100
+" 设置为 300ms，平衡响应速度和性能（原 100ms 过于频繁）
+set updatetime=300
 
 "----------------------------------------------------------------------
 " vim 7.3新特性：持久撤销 配置（已禁用，如需启用取消注释）
@@ -100,7 +101,8 @@ if has('multi_byte')
 	set fileencoding=utf-8
 
 	" 打开文件时自动尝试下面顺序的编码
-	set fileencodings=ucs-bom,utf-8,gbk,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+	" 精简编码列表，优先检测常用编码，提升性能
+	set fileencodings=ucs-bom,utf-8,gbk,gb18030,latin1
 endif
 
 
@@ -149,6 +151,8 @@ set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
 
 " 设置 tags：当前文件所在目录往上向根目录搜索直到碰到 .tags 文件
 " 或者 Vim 当前目录包含 .tags 文件
+" 注意：";" 表示向上递归搜索，深层目录可能影响性能
+" 如遇性能问题，可改为固定路径：set tags=~/.cache/tags/.tags
 set tags=./.tags;,.tags
 
 " 如遇Unicode值大于255的文本，不必等到空格再折行
@@ -173,6 +177,15 @@ if has('folding')
 
 	" 默认打开所有缩进
 	set foldlevel=99
+
+	" 性能优化：大文件时禁用折叠（超过 10000 行）
+	" 避免折叠计算导致的卡顿
+	augroup LargeFileFolding
+		autocmd!
+		autocmd BufReadPre * if getfsize(expand('<afile>')) > 500000 |
+			\ setlocal foldmethod=manual |
+			\ endif
+	augroup END
 endif
 
 
